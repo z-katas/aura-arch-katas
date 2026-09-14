@@ -35,10 +35,10 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 
 ![Team cover picture](/assets/team_cover.png "Team cover picture")
 
-- [**Mukundan Nallani Chakravartula**](https://www.linkedin.com/in/mukundannc/), Tech Lead
-- [**Akhil Raja Reddy Kanthala**](https://www.linkedin.com/in/akhil-raja-reddy/), Principal Software Engineer
-- [**Uday Kiran K**](https://www.linkedin.com/in/udaykirankavaturu/), Principal Software Engineer
-- [**Durga Laxmi Immadi**](https://www.linkedin.com/in/durga-immadi-916893a3), Senior Software Engineer
+- [**Mukundan Nallani Chakravartula**](https://www.linkedin.com/in/mukundannc/), Technical Product Manager
+- [**Akhil Raja Reddy Kanthala**](https://www.linkedin.com/in/akhil-raja-reddy/), Senior Tech Lead
+- [**Uday Kiran K**](https://www.linkedin.com/in/udaykirankavaturu/), Senior Tech Lead
+- [**Durga Laxmi Immadi**](https://www.linkedin.com/in/durga-immadi-916893a3), Senior Tech Lead & UX designer
 - [**Ravi Kiran Bhusetty**](https://www.linkedin.com/in/ravi-kiran-bhusetty/), Senior Software Engineer
 
 ## Glossary
@@ -97,7 +97,7 @@ This breaks down into four supporting objectives:
 **Business**
 - **Scale today** — 40 rides, 55 animal enclosures, 200+ animals, ~5,000 visitors/day
 - **Scale target** — 15,000 visitors/day within 3 years (3x growth)
-- **Budget is finite** — hardware spend is sanctioned but not unlimited; [Details: state any assumption your team makes on budget ceiling]
+- **Budget is finite** — hardware spend is sanctioned but not unlimited
 - **No existing systems** — no ticketing, visitor tracking, or animal monitoring infrastructure to integrate with; this is a greenfield build
 
 **AI-specific**
@@ -134,6 +134,20 @@ We prioritized the following use-cases for this exercise:
 3. **HMW use AI to keep the animal collection healthy without adding headcount** — computer vision and sensor-based monitoring of feeding, health, and piranha population levels, so issues are caught early rather than discovered too late?
 
 4. **HMW use AI to turn first-time visitors into repeat visitors** — personalization and targeted marketing that drive return visits, so the estate grows revenue without relying purely on new-visitor acquisition?
+
+# Golden Path — Actor Lifecycles
+
+In EventStorming, the **golden path** is the sequence of events when a process completes exactly as intended — no exceptions, no errors. It's established early to give the team a shared timeline before layering in edge cases and policies.
+
+Each lane below is one actor's golden path — the steps that must succeed, in order, for their session to count as a success. Failure branches (failed safety checks, payment retries, flagged anomalies) are documented on the individual event-storming boards, not here.
+
+![Golden path swimlanes](/assets/golden_path.png  "Golden path swimlanes")
+
+
+## Notable design decisions
+
+- **Every staff track ends in a plain "End,"** but the Visitor and Estate Owner tracks end in a named outcome ("Happy visitor experience," "Single digital platform") — this was a deliberate choice to keep the two audience-facing goals visible on the board itself, rather than only in prose elsewhere in the README.
+- **The Estate Owner's path has no explicit "Log out"** shown before its outcome — worth confirming with the team whether that's intentional or a gap versus the other four lanes, which all show Log out before End.
 
 ## Event Storming — Identifying the Services
 ![event-storming-internal-operations](/assets/event-storming-internal-operations.png "event-storming-internal-operations")
