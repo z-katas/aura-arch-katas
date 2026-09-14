@@ -113,7 +113,7 @@ This breaks down into four supporting objectives:
 | Outcome | Basis (compact) |
 |---|---|
 | **Staff efficiency: ~20% better coverage** of high-traffic zones | Pareto footfall (20% of locations → ~60% of visits); staff today spread evenly across ~95 locations. Estimate, no estate data yet. |
-| **Animal welfare cost: ~93% reduction** ($16,310 → $1,114/wk) | Derived — see [cost analysis](design_docs/cost-analysis.md). AI monitoring + keeper review on ~15% flagged. |
+| **Animal welfare cost: ~93% reduction** ($16,310 → $1,114/wk) | AI monitoring + keeper review on ~15% flagged. |
 | **Health incidents: ~6 fewer/year** (20 → ~14) | Est. ~20 events/yr (industry rate); faster detection cuts escalation lag from 12hrs to <1hr, preventing ~70% of late-detection escalations. |
 | **Repeat visits: ~20% relative increase** (15% → 18%) | Typical lift from loyalty/personalization in leisure/retail; conservative estimate. |
 | **Visitor growth: 3x in 3 yrs** (5,000 → 15,000/day) | Estate's stated target — use cases support it. |
