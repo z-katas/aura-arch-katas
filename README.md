@@ -33,13 +33,13 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 
 ## Team
 
-[Details: team photo/graphic]
+![Team cover picture](/assets/team_cover.png "Team cover picture")
 
-- [**Mukundan Nallani Chakravartula**](https://www.linkedin.com/in/mukundannc/), Senior Tech Lead
-- [**Akhil Raja Reddy Kanthala**](https://www.linkedin.com/in/akhil-raja-reddy/), Senior Tech Lead
-- [**Uday Kiran K**](https://www.linkedin.com/in/udaykirankavaturu/), Senior Tech Lead
-- [**Durga Laxmi Immadi**](www.linkedin.com/in/durga-immadi-916893a3), Senior Tech Lead
-- [**Ravi Kiran Bhusetty**](https://www.linkedin.com/in/ravi-kiran-bhusetty/), Senior Tech Lead
+- [**Mukundan Nallani Chakravartula**](https://www.linkedin.com/in/mukundannc/), Tech Lead
+- [**Akhil Raja Reddy Kanthala**](https://www.linkedin.com/in/akhil-raja-reddy/), Principal Software Engineer
+- [**Uday Kiran K**](https://www.linkedin.com/in/udaykirankavaturu/), Principal Software Engineer
+- [**Durga Laxmi Immadi**](https://www.linkedin.com/in/durga-immadi-916893a3), Senior Software Engineer
+- [**Ravi Kiran Bhusetty**](https://www.linkedin.com/in/ravi-kiran-bhusetty/), Senior Software Engineer
 
 ## Glossary
 
