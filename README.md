@@ -44,7 +44,20 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 
 ## Glossary
 
-[TO DO]
+| Term | Definition |
+|---|---|
+| **Architecture quantum** | A cohesive group of capabilities that shares similar scalability, availability, and change-cadence needs. This platform uses Visitor, Maintenance, Staffing, and Analytics quanta. |
+| **Edge** | Computing and sensing performed near the rides, enclosures, and other estate equipment rather than in the cloud. |
+| **Event backbone** | The event-driven communication layer that distributes ticketing, telemetry, staffing, and operational events between quanta. |
+| **Event storming** | A collaborative modelling technique used here to map actor actions and domain events before identifying services and boundaries. |
+| **Golden path** | The expected sequence of events when a process completes successfully, without exceptions or errors. |
+| **GenAI** | Generative artificial intelligence that produces content or recommendations, such as diagnostic guidance, recovery offers, or visitor assistance. |
+| **HMW** | “How might we?”: a framing format used to express the four AI-enabled automation opportunities. |
+| **MQTT** | A lightweight publish/subscribe messaging protocol used by estate hardware to send sensor data over unreliable connectivity. |
+| **NLP** | Natural language processing used to interpret visitor feedback and support sentiment analysis and recovery actions. |
+| **Pareto footfall** | The planning assumption that a relatively small share of locations accounts for a disproportionately large share of visits; this informs staffing prioritisation. |
+| **RAG** | Retrieval-augmented generation: an AI pattern that grounds diagnostic responses in information retrieved from the asset knowledge store. |
+| **Store-and-forward** | An edge pattern that buffers events locally during connectivity gaps and forwards them when communication with the cloud returns. |
 
 ## Context
 
@@ -189,34 +202,4 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 | **Maintenance** | Data Integrity, Extensibility, Deployability | Data Consistency, Security | Microservices | Safety/welfare-critical; a wrong reading is worse than a slow one |
 | **Analytics** | Data Integrity, Interoperability, Adaptability | Data Consistency, Fault Tolerance | Event-driven | Aggregates every other quantum's data; must stay correct and pluggable |
 | **Marketing** | Adaptability, Interoperability, Deployability | Data Integrity, Availability | Event-driven | Campaign rules and channels change frequently; reacts to visitor behavior without coupling to Analytics or Visitor internals |
-
-## Core architecture views and design descriptions
-
-The architecture is intentionally segmented into four operational quanta so that visitor experience, estate safety, staff operations, and executive intelligence can evolve independently while still sharing a common event backbone.
-
-### C1 System Context View
-
-- [C1 System Context View](docs/architecture/c1-system-context.md)
-- Defines the platform boundary, external actors, edge fleet, and third-party integrations.
-- Shows the Countess, visitors, field staff, payment gateway, and the estate's edge sensor network interacting with the AURA platform.
-- Establishes the high-level picture: the estate is a cloud-backed platform fed by resilient edge devices operating in a patchy connectivity environment.
-
-### C2 Container View
-
-- [C2 Container View](docs/architecture/c2-container-view.md)
-- Breaks the platform into four architectural quanta: Visitor, Maintenance, Staffing, and Analytics.
-- Keeps the edge sensing and store-and-forward buffer within the Maintenance quantum, while the Visitor quantum includes booking, pass issuance, feedback capture, and NLP-based recovery flows.
-- Highlights the event backbone and the service boundaries for ticketing, predictive maintenance, staff dispatch, and executive analytics.
-- Demonstrates how asynchronous communication keeps the quanta decoupled while still allowing ticket, telemetry, and insight data to flow into analytics.
-
-### Operational flow views
-
-The operational flow diagrams document the key end-to-end journeys that the platform must perform reliably under real-world conditions:
-
-- [Visitor Ticketing & AI Feedback Recovery Flow](docs/architecture/operational-flows/visitor-flow.md) — covers pass purchase, offline gate validation, and dynamic recovery offers after visitor feedback.
-- [Predictive Asset Maintenance & RAG Diagnostic Dispatch Flow](docs/architecture/operational-flows/maintenance-flow.md) — covers sensor ingestion, local anomaly detection, diagnostics with vector knowledge, and field dispatch.
-- [Spatial Crowd Triage & Staff Dispatch Flow](docs/architecture/operational-flows/staffing-flow.md) — covers crowd density observation, route optimization, and offline-first mobile dispatch.
-- [Executive Analytics & Human-in-the-Loop Intelligence Flow](docs/architecture/operational-flows/analytics-flow.md) — covers KPI aggregation, forecast generation, and approval-based automation.
-
-These views and decisions together form the architectural blueprint for the estate platform and provide the operating model for a resilient AI-enabled estate.
 
