@@ -179,3 +179,4 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 | **Staffing** | Fault Tolerance, Availability, Usability | Consistency | Event-driven | Deployment suggestions are useless if late or lost |
 | **Maintenance** | Data Integrity, Extensibility, Deployability | Data Consistency, Security | Microservices | Safety/welfare-critical; a wrong reading is worse than a slow one |
 | **Analytics** | Data Integrity, Interoperability, Adaptability | Data Consistency, Fault Tolerance | Event-driven | Aggregates every other quantum's data; must stay correct and pluggable |
+| **Marketing** | Adaptability, Interoperability, Deployability | Data Integrity, Availability | Event-driven | Campaign rules and channels change frequently; reacts to visitor behavior without coupling to Analytics or Visitor internals |
