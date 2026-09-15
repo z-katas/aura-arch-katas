@@ -137,14 +137,11 @@ Refer to [detailed outcomes & cost analysis](design_docs/cost-analysis.md).
 
 ## Architecture blueprint
 
-- [C1 System Context View](docs/architecture/c1-system-context.md)
-- [C2 Container View](docs/architecture/c2-container-view.md)
-- [Visitor Ticketing Flow](docs/architecture/operational-flows/visitor-flow.md)
-- [Maintenance Flow](docs/architecture/operational-flows/maintenance-flow.md)
-- [Staffing Flow](docs/architecture/operational-flows/staffing-flow.md)
-- [Analytics Flow](docs/architecture/operational-flows/analytics-flow.md)
+### C1 - Context view
+![C1](/assets/c1.png "C1")
 
-This architecture preserves the four quanta, keeps the edge-first MQTT store-and-forward pattern, and models cloud communication through event-driven interactions.
+### C2 - Container view
+![C2](/assets/c2.png "C2")
 
 ## Automation use-cases using AI
 
@@ -205,34 +202,4 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 | **Maintenance** | Data Integrity, Extensibility, Deployability | Data Consistency, Security | Microservices | Safety/welfare-critical; a wrong reading is worse than a slow one |
 | **Analytics** | Data Integrity, Interoperability, Adaptability | Data Consistency, Fault Tolerance | Event-driven | Aggregates every other quantum's data; must stay correct and pluggable |
 | **Marketing** | Adaptability, Interoperability, Deployability | Data Integrity, Availability | Event-driven | Campaign rules and channels change frequently; reacts to visitor behavior without coupling to Analytics or Visitor internals |
-
-## Core architecture views and design descriptions
-
-The architecture is intentionally segmented into four operational quanta so that visitor experience, estate safety, staff operations, and executive intelligence can evolve independently while still sharing a common event backbone.
-
-### C1 System Context View
-
-- [C1 System Context View](docs/architecture/c1-system-context.md)
-- Defines the platform boundary, external actors, edge fleet, and third-party integrations.
-- Shows the Countess, visitors, field staff, payment gateway, and the estate's edge sensor network interacting with the AURA platform.
-- Establishes the high-level picture: the estate is a cloud-backed platform fed by resilient edge devices operating in a patchy connectivity environment.
-
-### C2 Container View
-
-- [C2 Container View](docs/architecture/c2-container-view.md)
-- Breaks the platform into four architectural quanta: Visitor, Maintenance, Staffing, and Analytics.
-- Keeps the edge sensing and store-and-forward buffer within the Maintenance quantum, while the Visitor quantum includes booking, pass issuance, feedback capture, and NLP-based recovery flows.
-- Highlights the event backbone and the service boundaries for ticketing, predictive maintenance, staff dispatch, and executive analytics.
-- Demonstrates how asynchronous communication keeps the quanta decoupled while still allowing ticket, telemetry, and insight data to flow into analytics.
-
-### Operational flow views
-
-The operational flow diagrams document the key end-to-end journeys that the platform must perform reliably under real-world conditions:
-
-- [Visitor Ticketing & AI Feedback Recovery Flow](docs/architecture/operational-flows/visitor-flow.md) — covers pass purchase, offline gate validation, and dynamic recovery offers after visitor feedback.
-- [Predictive Asset Maintenance & RAG Diagnostic Dispatch Flow](docs/architecture/operational-flows/maintenance-flow.md) — covers sensor ingestion, local anomaly detection, diagnostics with vector knowledge, and field dispatch.
-- [Spatial Crowd Triage & Staff Dispatch Flow](docs/architecture/operational-flows/staffing-flow.md) — covers crowd density observation, route optimization, and offline-first mobile dispatch.
-- [Executive Analytics & Human-in-the-Loop Intelligence Flow](docs/architecture/operational-flows/analytics-flow.md) — covers KPI aggregation, forecast generation, and approval-based automation.
-
-These views and decisions together form the architectural blueprint for the estate platform and provide the operating model for a resilient AI-enabled estate.
 
