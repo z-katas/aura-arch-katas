@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-Per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md), the Staffing quantum's top driving characteristics are **Fault Tolerance**, **Availability**, and **Responsiveness**. Field staff work across a sprawling estate (40 vintage rides and 55 animal enclosures) with **patchy Wi-Fi**. They must still receive real-time dispatch orders (for example, dynamic crowd-control nudges) and log incident reports (animal-health anomalies, ride safety hazards) without data loss.
+Per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md), the Staffing quantum's top driving characteristics are **Fault Tolerance**, **Availability**, and **Usability**. Field staff work across a sprawling estate (40 vintage rides and 55 animal enclosures) with **patchy Wi-Fi**. They must still receive real-time dispatch orders (for example, dynamic crowd-control nudges) and log incident reports (animal-health anomalies, ride safety hazards) without data loss — see the [Staffing quantum architecture](../assets/staffing-quantum-architecture.png) and [sequence](../assets/staffing-quantum-sequence.png).
 
 Standard synchronous web protocols (HTTP/REST) fail during network drops, which risks dropped incident logs and uncoordinated crowd management. Deployment suggestions are useless if they arrive late or are lost — the same reason this quantum is event-driven rather than request/response.
 
@@ -27,7 +27,7 @@ Specifically:
 **Positive:**
 - **Fault tolerance** — incident logs and dispatch receipts are not lost when the device is in a dead zone; the queue drains on reconnect.
 - **Availability** — staff can keep logging and reading last-known deployment state without a live cloud session.
-- **Responsiveness** — the app stays usable from local state instead of blocking on HTTP timeouts.
+- **Usability** — the app stays usable from local state instead of blocking on HTTP timeouts.
 - Fits the estate constraint of MQTT-capable hardware as the path from the grounds to the cloud, and matches the Staffing quantum's event-driven style.
 
 **Negative / trade-offs:**

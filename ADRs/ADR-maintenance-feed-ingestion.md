@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-The Maintenance quantum watches **40 vintage rides** (high-frequency acoustic and vibration telemetry) and **55 enclosures** (continuous camera and sensor feeds, including jumping piranhas) — see the [Maintenance quantum architecture](../assets/maintenance-quantum-architecture.png). Per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md), this quantum is driven by **Data Integrity**, **Extensibility**, and **Deployability**: a missed or invented "healthy" reading is worse than a slow one, and new ride or enclosure types will appear over the 3-year growth window.
+The Maintenance quantum watches **40 vintage rides** (high-frequency acoustic and vibration telemetry) and **55 enclosures** (continuous camera and sensor feeds, including jumping piranhas) — see the [Maintenance quantum architecture](../assets/maintenance-quantum-architecture.png) and [sequence](../assets/maintenance-quantum-sequence.png). Per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md), this quantum is driven by **Data Integrity**, **Extensibility**, and **Deployability**: a missed or invented "healthy" reading is worse than a slow one, and new ride or enclosure types will appear over the 3-year growth window.
 
 The estate constraint is **patchy Wi-Fi** with **MQTT as the only sanctioned path** from the grounds to the cloud. Streaming raw telemetry and video is not viable: the pipe cannot carry it, cloud ingest and storage cost would erase the [keeper-hour savings](../design_docs/cost-analysis.md) this use case is meant to create, and a wifi drop mid-stream would lose the exact moments we care about (a bearing going bad, a piranha count change).
 
