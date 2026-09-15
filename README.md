@@ -44,7 +44,20 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 
 ## Glossary
 
-[TO DO]
+| Term | Definition |
+|---|---|
+| **Architecture quantum** | A cohesive group of capabilities that shares similar scalability, availability, and change-cadence needs. This platform uses Visitor, Maintenance, Staffing, and Analytics quanta. |
+| **Edge** | Computing and sensing performed near the rides, enclosures, and other estate equipment rather than in the cloud. |
+| **Event backbone** | The event-driven communication layer that distributes ticketing, telemetry, staffing, and operational events between quanta. |
+| **EventStorming** | A collaborative modelling technique used here to map actor actions and domain events before identifying services and boundaries. |
+| **Golden path** | The expected sequence of events when a process completes successfully, without exceptions or errors. |
+| **GenAI** | Generative artificial intelligence that produces content or recommendations, such as diagnostic guidance, recovery offers, or visitor assistance. |
+| **HMW** | “How might we?”: a framing format used to express the four AI-enabled automation opportunities. |
+| **MQTT** | A lightweight publish/subscribe messaging protocol used by estate hardware to send sensor data over unreliable connectivity. |
+| **NLP** | Natural language processing used to interpret visitor feedback and support sentiment analysis and recovery actions. |
+| **Pareto footfall** | The planning assumption that a relatively small share of locations accounts for a disproportionately large share of visits; this informs staffing prioritisation. |
+| **RAG** | Retrieval-augmented generation: an AI pattern that grounds diagnostic responses in information retrieved from the asset knowledge store. |
+| **Store-and-forward** | An edge pattern that buffers events locally during connectivity gaps and forwards them when communication with the cloud returns. |
 
 ## Context
 
