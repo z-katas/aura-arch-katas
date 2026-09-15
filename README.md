@@ -243,9 +243,10 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 | Quantum | Top 3 Characteristics | Others Considered | Style | Why |
 | --- | --- | --- | --- | --- |
 | **Visitors** | Availability, Performance, Scalability | Concurrency | Microservices | Highest-traffic surface; must scale independently for 3x visitor growth |
-| **Staffing** | Fault Tolerance, Availability, Responsiveness | Consistency | Event-driven | Deployment suggestions are useless if late or lost |
+| **Staffing** | Fault Tolerance, Availability, Usability | Consistency | Event-driven | Deployment suggestions are useless if late or lost |
 | **Maintenance** | Data Integrity, Extensibility, Deployability | Data Consistency, Security | Microservices | Safety/welfare-critical; a wrong reading is worse than a slow one |
 | **Analytics** | Data Integrity, Interoperability, Adaptability | Data Consistency, Fault Tolerance | Event-driven | Aggregates every other quantum's data; must stay correct and pluggable |
+| **Marketing** | Adaptability, Interoperability, Deployability | Data Integrity, Availability | Event-driven | Campaign rules and channels change frequently; reacts to visitor behavior without coupling to Analytics or Visitor internals |
 
 ## Core architecture views and design descriptions
 
@@ -276,3 +277,4 @@ The operational flow diagrams document the key end-to-end journeys that the plat
 - [Executive Analytics & Human-in-the-Loop Intelligence Flow](docs/architecture/operational-flows/analytics-flow.md) — covers KPI aggregation, forecast generation, and approval-based automation.
 
 These views and decisions together form the architectural blueprint for the estate platform and provide the operating model for a resilient AI-enabled estate.
+
