@@ -49,7 +49,7 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 | **Architecture quantum** | A cohesive group of capabilities that shares similar scalability, availability, and change-cadence needs. This platform uses Visitor, Maintenance, Staffing, and Analytics quanta. |
 | **Edge** | Computing and sensing performed near the rides, enclosures, and other estate equipment rather than in the cloud. |
 | **Event backbone** | The event-driven communication layer that distributes ticketing, telemetry, staffing, and operational events between quanta. |
-| **EventStorming** | A collaborative modelling technique used here to map actor actions and domain events before identifying services and boundaries. |
+| **Event storming** | A collaborative modelling technique used here to map actor actions and domain events before identifying services and boundaries. |
 | **Golden path** | The expected sequence of events when a process completes successfully, without exceptions or errors. |
 | **GenAI** | Generative artificial intelligence that produces content or recommendations, such as diagnostic guidance, recovery offers, or visitor assistance. |
 | **HMW** | “How might we?”: a framing format used to express the four AI-enabled automation opportunities. |
