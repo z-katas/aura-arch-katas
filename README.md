@@ -124,69 +124,11 @@ Refer to [detailed outcomes & cost analysis](design_docs/cost-analysis.md).
 
 ## Architecture blueprint
 
-- [C1 System Context View](docs/architecture/c1-system-context.md)
-- [C2 Container View](docs/architecture/c2-container-view.md)
-- [Visitor Ticketing Flow](docs/architecture/operational-flows/visitor-flow.md)
-- [Maintenance Flow](docs/architecture/operational-flows/maintenance-flow.md)
-- [Staffing Flow](docs/architecture/operational-flows/staffing-flow.md)
-- [Analytics Flow](docs/architecture/operational-flows/analytics-flow.md)
+### C1 - Context view
+![C1](/assets/c1.png "C1")
 
-This architecture preserves the four quanta, keeps the edge-first MQTT store-and-forward pattern, and models cloud communication through event-driven interactions.
-
-## Quick architecture overview
-
-```mermaid
-flowchart TB
-    subgraph VQ["Visitor Quantum"]
-        visitor["Visitor Booking Web / App"]
-        access["Pass Issuance & Access Control"]
-        feedback["Feedback Service"]
-        nlp["NLP Sentiment & Recovery"]
-        ticketdb[("Ticket / Access Ledger")]
-    end
-
-    subgraph MQ["Maintenance Quantum"]
-        edge["Edge Sensing & Local Inference"]
-        buffer["MQTT Buffer & Store-and-Forward"]
-        monitor["Predictive Maintenance Monitor"]
-        rag["RAG Diagnostic Copilot"]
-        knowledge[("Asset Knowledge Store")]
-    end
-
-    subgraph SQ["Staffing Quantum"]
-        triage["Crowd Triage & Dispatch"]
-        roster[("Roster / Skills DB")]
-        staffapp["Field Dispatch App"]
-    end
-
-    subgraph AQ["Analytics Quantum"]
-        broker["Event Backbone / Message Broker"]
-        stream["Real-Time Stream Aggregator"]
-        insights["Executive Insights & Forecasting"]
-        events[("Telemetry & Event Store")]
-        dashboard["Executive Dashboard"]
-    end
-
-    visitor -->|Book / buy| access
-    access -->|Signed passes| ticketdb
-    visitor -->|Comments / ratings| feedback
-    feedback -->|Feedback text| nlp
-
-    edge -->|Sensor data| buffer
-    buffer -->|Buffered events| broker
-    monitor -->|Risk triggers| rag
-    broker -->|Sensor events| monitor
-    rag -->|Knowledge lookup| knowledge
-    rag -->|Work order| triage
-    triage -->|Assignment| roster
-    roster -->|Route| staffapp
-
-    ticketdb -->|Access events| broker
-    broker -->|Event stream| stream
-    stream -->|KPIs| insights
-    stream --> events
-    insights -->|Forecasts / alerts| dashboard
-```
+### C2 - Container view
+![C2](/assets/c2.png "C2")
 
 ## Automation use-cases using AI
 
