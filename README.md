@@ -176,6 +176,6 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 | Quantum | Top 3 Characteristics | Others Considered | Style | Why |
 | --- | --- | --- | --- | --- |
 | **Visitors** | Availability, Performance, Scalability | Concurrency | Microservices | Highest-traffic surface; must scale independently for 3x visitor growth |
-| **Staffing** | Fault Tolerance, Availability, Responsiveness | Consistency | Event-driven | Deployment suggestions are useless if late or lost |
+| **Staffing** | Fault Tolerance, Availability, Usability | Consistency | Event-driven | Deployment suggestions are useless if late or lost |
 | **Maintenance** | Data Integrity, Extensibility, Deployability | Data Consistency, Security | Microservices | Safety/welfare-critical; a wrong reading is worse than a slow one |
 | **Analytics** | Data Integrity, Interoperability, Adaptability | Data Consistency, Fault Tolerance | Event-driven | Aggregates every other quantum's data; must stay correct and pluggable |
