@@ -220,7 +220,7 @@ Each lane below is one actor's golden path — the steps that must succeed, in o
 
 ## Architecture characteristics
 
-Refer to [detailed architecture characteristics analysis](design_docs/architecture-characteristics-styles.md). Each quantum has its own driving characteristics and matching style — selected from the worksheets below, not a single style applied estate-wide.
+Refer to [detailed architecture characteristics analysis](design_docs/architecture-characteristics-styles.md). Each quantum has its own driving characteristics and matching style — selected from the worksheets below, not a single style applied estate-wide. The measurable success criteria for each characteristic are defined in [Fitness Functions](design_docs/fitness-functions.md).
 
 ![Architecture characteristics worksheets](assets/architecture-characteristics-styles1.png "Architecture characteristics worksheets")
 ![Architecture styles worksheets](assets/architecture-characteristics-styles2.png "Architecture styles worksheets")
