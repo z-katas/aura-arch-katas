@@ -22,6 +22,28 @@ Specifically:
 - The gateway translates that schema to each provider, holds API keys, and applies failover policy (if Provider A times out, route the same prompt to Provider B immediately).
 - Token use and cost are metered at the gateway so provider spend is visible in one place, not scattered across service logs.
 
+## Model Selection Policy
+
+Every call entering the gateway is tagged with a **tier** — not a hard-coded model name. The gateway resolves the current model for that tier at runtime. Switching a model = update the gateway config, no service redeploy.
+
+| Tier | Quantum / call type | Fallback (non-LLM) |
+|---|---|---|
+| **Fast** | Visitors — ticket assistant | Rule-based recommender |
+| **Fast** | Visitors — feedback triage | Flag ALL as urgent (fail-safe) |
+| **Fast** | Marketing — personalisation | Static offer rules |
+| **Standard** | Analytics — insight generation | Skip publish; retry next cycle |
+| **Standard** | Staffing — triage dispatcher | Rule-based severity tiers |
+| **Careful** | Maintenance — work order copilot | Human escalation (fail-closed) |
+
+No specific model is named here by design — the tier resolves to whichever model is configured in the gateway at runtime. Provider and model selection is a commercial and performance decision, not an architectural one. See [AI Cost Analysis](../design_docs/ai-cost-analysis.md) for a provider comparison across Anthropic, Google, Meta (Llama), Mistral, and OpenAI.
+
+Tier selection rules:
+- **Fast** — high call volume (>500/day), output is reviewable or low-stakes, latency-sensitive.
+- **Standard** — moderate volume, output is human-reviewed before action is taken.
+- **Careful** — low volume, safety-critical, or large RAG context (>2K tokens). Fallback is always a human, never a cheaper model.
+
+See [AI Cost Analysis](../design_docs/ai-cost-analysis.md) for token budgets and monthly cost projections per quantum.
+
 ## Consequences
 
 **Positive:**
