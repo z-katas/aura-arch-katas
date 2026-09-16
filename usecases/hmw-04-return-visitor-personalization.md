@@ -4,7 +4,7 @@
 
 **HMW use AI to turn first-time visitors into repeat visitors** — personalization and targeted marketing that drive return visits, so the estate grows revenue without relying purely on new-visitor acquisition?
 
-Quantum: **Marketing**. Unlike Visitors, Staffing, and Maintenance, Marketing does not yet have a dedicated component/sequence diagram in `assets/` — the diagram below is a lightweight Mermaid sketch derived directly from this use case's UX screen and the existing [architecture characteristics worksheet](../design_docs/architecture-characteristics-styles.md#marketing-quantum-worksheet), not a commissioned asset. It's intentionally simple: Marketing's job here is genuinely a thin, event-driven consumer, not a new subsystem.
+Quantum: **Marketing**. Marketing is a thin, event-driven consumer of published Visitor and Analytics events, not a new subsystem — the sketch below is the intended container view for this use case. Driving characteristics and style are in the [architecture characteristics worksheet](../design_docs/architecture-characteristics-styles.md#marketing-quantum-worksheet).
 
 ## Key screen
 
@@ -73,6 +73,5 @@ Per the [phased AI-adoption roadmap](../README.md#roadmap), personalization is o
 
 ## Limitations
 
-- **Privacy**: personalization requires identified visit history, which is why the Visitors quantum's message broker explicitly routes only "identified feedback + visit history" to Marketing — never raw feedback text, and never anonymous QR feedback (see [`hmw-01-ticket-pass-assistant.md`](hmw-01-ticket-pass-assistant.md)).
 - **Adaptability cuts both ways**: campaign rules that are easy to add are also easy to accumulate into an unmanaged pile over time — needs a rule-retirement/audit process that isn't yet designed.
-- **No dedicated architecture/sequence diagram exists yet for this quantum** (see the note at the top of this file) — the Mermaid sketch above should be replaced with a proper component diagram if this use case grows beyond its current scope.
+- **Privacy**: personalization requires identified visit history, which is why the Visitors quantum's message broker explicitly routes only "identified feedback + visit history" to Marketing — never raw feedback text, and never anonymous QR feedback (see [`hmw-01-ticket-pass-assistant.md`](hmw-01-ticket-pass-assistant.md)).

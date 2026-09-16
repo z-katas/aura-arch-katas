@@ -6,9 +6,8 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 
 ## Table of Contents
 
-- [AURA - Von Digitalis Estates | O'Reilly Architectural Katas (2026)](#AURA---von-digitalis-estates--oreilly-architectural-katas-2026)
-  - [Team](#team)
-  - [Glossary](#glossary)
+- [Team](#team)
+- [Glossary](#glossary)
 - [Problem definition](#problem-definition)
   - [Context](#context)
   - [Current State](#current-state)
@@ -76,6 +75,8 @@ A structured approach to the **O'Reilly 2026 Architectural Kata Challenge: Von D
 
 
 
+# Problem definition
+
 ## Context
 
 After a gardening accident, the 204th in line to the Von Digitalis title has become the **72nd Countess Von Digitalis**, inheriting a large estate that needs modernizing. The family's old business — explosive garden gnomes — is no longer viable, so the Countess is turning to digital solutions to make the estate profitable.
@@ -128,6 +129,8 @@ This breaks down into four supporting objectives:
 
 ## Constraints
 
+Constraints taken from the estate brief, grouped so the architecture can address them directly.
+
 **Technical**
 
 - **Patchy wifi** — coverage across the park is unreliable; any solution depending on real-time data must tolerate connectivity gaps
@@ -167,11 +170,11 @@ This breaks down into four supporting objectives:
 | **Headcount: no linear increase** with 3x scale                  | Follows from above: hours stay flat/retargeted, not added.                                                                                  |
 
 
-Refer to [detailed outcomes & cost analysis](design_docs/cost-analysis.md). These figures model the AI-assisted **steady state** — see [Roadmap](#roadmap) for why we don't expect to be at that steady state on day one, and what the maturity curve looks like getting there.
+Refer to [detailed outcomes & cost analysis](design_docs/cost-analysis.md). These figures model the AI-assisted **steady state**. The [Roadmap](#roadmap) is the path to that state: day one stays close to today's manual baseline, and savings arrive as each use case crosses its data threshold.
 
 ## Automation use-cases using AI
 
-We prioritized the following use-cases for this exercise:
+Four AI-enabled use cases were prioritized for this kata:
 
 ![HMW](/assets/hmw.png "HMW")
 
@@ -192,9 +195,9 @@ Each lane below is one actor's golden path — the steps that must succeed, in o
 
 ### Notable design decisions
 
-- **Every staff track ends in a plain "End,"** but the Visitor and Estate Owner tracks end in a named outcome ("Happy visitor experience," "Single digital platform") — this was a deliberate choice to keep the two audience-facing goals visible on the board itself, rather than only in prose elsewhere in the README.
-- **The Estate Owner's path has no explicit "Log out"** shown before its outcome — left as-is rather than silently corrected; worth confirming with the team whether the dashboard session is meant to stay persistently open, or whether this was an omission versus the other four lanes, which all show Log out before End.
-- Full observations, including how the staff-lane reuse pattern shaped our service boundaries, are in [design_docs/golden-path-actor-lifecycles.md](design_docs/golden-path-actor-lifecycles.md#observations).
+- **Visitor and Estate Owner lanes end in named outcomes** ("Happy visitor experience," "Single digital platform") rather than a generic End — the two goals the rest of the architecture is accountable to stay visible on the board.
+- **Every staff lane shares the same session shape** (log in → do the job → log out). That reuse is why Ride, Animal Care, and Front Office collapsed into shared Staffing and Maintenance boundaries instead of three bespoke staff systems.
+- Full observations are in [design_docs/golden-path-actor-lifecycles.md](design_docs/golden-path-actor-lifecycles.md#observations).
 
 
 
@@ -203,10 +206,10 @@ Each lane below is one actor's golden path — the steps that must succeed, in o
 ![event-storming-internal-operations](/assets/event-storming-internal-operations.png "event-storming-internal-operations")
 ![event-storming-visitor-facing](/assets/event-storming-visitor-facing.png "event-storming-visitor-facing")
 
-- After an event storming exercise using the Actor-Action approach across all five actors (Visitor, Estate Owner, Ride Staff, Animal Care Staff, Front Office), the following candidate services were identified in the first run — **Auth, Analytics, Staff Scheduling, Safety Checklist, Queue/IoT, Care Scheduling, Payment Gateway, Recommendation, Notification/Marketing** and **Finance/Reporting**.
-- Since several of these were triggered by the same aggregates and had similar scalability and availability needs — e.g. Analytics Engine was invoked identically for popularity reports, dashboards, and enclosure engagement data — they were consolidated rather than kept as separate services.
+- Event storming across the five actors (Visitor, Estate Owner, Ride Staff, Animal Care Staff, Front Office) produced a first-pass candidate list: **Auth, Analytics, Staff Scheduling, Safety Checklist, Queue/IoT, Care Scheduling, Payment Gateway, Recommendation, Notification/Marketing**, and **Finance/Reporting**.
+- Several of those candidates were triggered by the same aggregates and shared scalability and availability needs — for example Analytics was invoked identically for popularity reports, dashboards, and enclosure engagement — so they were consolidated rather than kept as separate services.
 - Safety Checklist and Queue/IoT both operate at the individual-ride level with the same read/write patterns, so they were folded into a single **Ride Operations** capability.
-- So finally, we have **Ticketing, Analytics, Staff Scheduling, Ride Operations, Animal Care, Notification/Marketing** and **Auth** as the identified services.
+- The resulting services are **Ticketing, Analytics, Staff Scheduling, Ride Operations, Animal Care, Notification/Marketing**, and **Auth**.
 
 
 
@@ -214,16 +217,19 @@ Each lane below is one actor's golden path — the steps that must succeed, in o
 
 ![architecture-quantum-identification](assets/architecture-quantum-identification.png "architecture-quantum-identification")
 
-- Grouping the identified aggregates by the services that operate on them, and the services by shared scalability, availability, and change-cadence needs, produced six candidate quanta in the first pass — **Analytics, Maintenance, Visitor, Feedback, Staffing** and **Marketing**.
-- Since the Feedback Service has low, steady traffic and no distinct scaling or availability profile of its own, it doesn't warrant a dedicated quantum — it was folded into the **Visitor** quantum, which it functionally supports.
-- Maintenance (rides + animal enclosures + sensor data) has real-time, safety-critical requirements that the other quanta don't share, so it was kept independent rather than merged with Visitor or Staffing.
-- So finally, we have **Analytics, Maintenance, Visitor, Staffing** and **Marketing** as the architecture quanta for the Von Digitalis Estates system.
+- Grouping aggregates by the services that operate on them, and those services by shared scalability, availability, and change-cadence needs, produced six candidate quanta: **Analytics, Maintenance, Visitor, Feedback, Staffing**, and **Marketing**.
+- Feedback has low, steady traffic and no distinct scaling or availability profile of its own, so it was folded into the **Visitor** quantum it already supports.
+- Maintenance (rides, animal enclosures, and sensor data) has real-time, safety-critical requirements the other quanta do not share, so it was kept independent rather than merged with Visitor or Staffing.
+- The architecture quanta for Von Digitalis Estates are **Analytics, Maintenance, Visitor, Staffing**, and **Marketing**.
 
 
 
 ## Architecture characteristics
 
-Refer to [detailed architecture characteristics analysis](design_docs/architecture-characteristics-styles.md).
+Refer to [detailed architecture characteristics analysis](design_docs/architecture-characteristics-styles.md). Each quantum has its own driving characteristics and matching style — selected from the worksheets below, not a single style applied estate-wide.
+
+![Architecture characteristics worksheets](assets/architecture-characteristics-styles1.png "Architecture characteristics worksheets")
+![Architecture styles worksheets](assets/architecture-characteristics-styles2.png "Architecture styles worksheets")
 
 
 | Quantum         | Top 3 Characteristics                          | Others Considered                 | Style         | Why                                                                                                                          |
@@ -239,7 +245,7 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 
 ## Architecture blueprint
 
-Now that the five quanta are identified, here's how they compose into one system — the context view (who talks to AURA, and through which external system) and a consolidated container view across all five quanta, using a consistent legend: AI/ML components (purple) are always visually distinct from deterministic application services (green), message brokers (blue), and persistent storage (cylinders) — the same "AI-derived vs. ground truth" separation from [ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md), made structural at the diagram level, not just within Analytics.
+The five quanta compose into one system. The context view shows who talks to AURA; the container view shows how the quanta connect. The legend is consistent across both: AI/ML components (purple) stay visually distinct from deterministic application services (green), message brokers (blue), and persistent storage (cylinders) — the same "AI-derived vs. ground truth" separation from [ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md), applied at the system level, not only inside Analytics.
 
 ### C1 - Context view
 
@@ -257,59 +263,111 @@ Each use case below is summarized here; the full write-up (data flow, component 
 
 **HMW use AI to make buying tickets effortless** — assisted ticket purchase, family pass recommendations, and in-park wayfinding, so visitors spend less time figuring out logistics and more time enjoying the estate?
 
-![Visitors quantum architecture](assets/visitors-quantum-architecture.png "Visitors quantum architecture")
+Refer [**detailed design**](usecases/hmw-01-ticket-pass-assistant.md) of this use case.
+
+**Solution approach:**
 
 - A deterministic **Ticketing and Family Pass core** (catalog, capacity/inventory, order & checkout) handles every purchase end to end with zero AI involvement — this is the estate's ground truth and its permanent fallback, not a stopgap.
 - An **AI Advisory Overlay** reads free-text party/intent and recommends a bundle via the shared [Internal AI Gateway](ADRs/ADR-external-ai-integration.md) — advisory only; it never charges the visitor, and on timeout or low confidence it falls back to a rule-based recommender rather than blocking the purchase.
 - A separate, lightweight **Safety/Urgency Triage** classifier on the visitor feedback path flags urgent issues for immediate routing, independent of the recommendation engine.
 
-![Book your visit](assets/ux-01-ticket-pass-assistant.png "Book your visit — pass assistant recommendation")
+![Visitors quantum architecture](assets/visitors-quantum-architecture.png "Visitors quantum architecture")
 
-→ Full deep dive, golden-path sequence, and monitoring approach: [`usecases/hmw-01-ticket-pass-assistant.md`](usecases/hmw-01-ticket-pass-assistant.md)
+**Data flow:**
+
+![Visitors quantum sequence](assets/visitors-quantum-sequence.png "Ticket and family pass purchase — golden path")
+
+**Key screen:**
+
+![Book your visit](assets/ux-01-ticket-pass-assistant.png "Book your visit — pass assistant recommendation")
 
 ### Popularity / footfall analytics use case
 
 **HMW use sensor data and AI to understand what's actually popular** — an MQTT sensor + AI pipeline that shows which zones and rides are busiest, so staff and investment go where visitors are?
 
-This use case deliberately spans two quanta — **Analytics** produces the insight, **Staffing** acts on it.
+This use case spans two quanta — **Analytics** produces the insight, **Staffing** acts on it.
 
-![Analytics quantum architecture](assets/analytics-quantum-architecture.png "Analytics quantum architecture")
-![Staffing quantum architecture](assets/staffing-quantum-architecture.png "Staffing quantum architecture")
+Refer [**detailed design**](usecases/hmw-02-footfall-staff-deployment.md) of this use case.
+
+**Solution approach:**
 
 - **Raw telemetry and AI-derived forecasts are two separate published feeds** ([ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md)) — the live heatmap is trustworthy unconditionally; the hotspot forecast carries a confidence score and only becomes a staffing nudge once it clears a threshold.
 - **Two data stores for two access patterns** ([ADR: Dual Data Store Strategy](ADRs/ADR-dual-data-store-strategy.md)): an Events DB for auditable, reviewable insights; a data lake for bulk telemetry and trend analysis.
 - **Tiered human authorization on dispatch** ([ADR: Authorization Model for AI Staff Dispatch](ADRs/ADR-staffing-ai-dispatch-authorization.md)): low-severity crowd nudges auto-dispatch; high-severity incidents block the field MQTT push until a manager approves, with a 45-second escalation matrix as the safety net.
 - **Offline-first field delivery** ([ADR: Field Staff App Connectivity Strategy](ADRs/ADR-staffing-field-app-connectivity.md)): deployment plans and incident logs survive Wi-Fi dead zones via local SQLite + MQTT QoS 1.
 
-![Live operations](assets/ux-02-staff-live-ops.png "Live operations — current vs. forecast, side by side")
+![Analytics quantum architecture](assets/analytics-quantum-architecture.png "Analytics quantum architecture")
+![Staffing quantum architecture](assets/staffing-quantum-architecture.png "Staffing quantum architecture")
 
-→ Full deep dive, golden-path sequence, and monitoring approach: [`usecases/hmw-02-footfall-staff-deployment.md`](usecases/hmw-02-footfall-staff-deployment.md)
+**Data flow:**
+
+![Analytics quantum sequence](assets/sequence-analytics-quantum.png "Analytics quantum sequence")
+![Staffing quantum sequence](assets/staffing-quantum-sequence.png "Staffing quantum sequence")
+
+**Key screen:**
+
+![Live operations](assets/ux-02-staff-live-ops.png "Live operations — current vs. forecast, side by side")
 
 ### Animal health & welfare monitoring use case
 
 **HMW use AI to keep the animal collection healthy without adding headcount** — computer vision and sensor-based monitoring of feeding, health, and piranha population levels, so issues are caught early rather than discovered too late?
 
-![Maintenance quantum architecture](assets/maintenance-quantum-architecture.png "Maintenance quantum architecture")
+Refer [**detailed design**](usecases/hmw-03-animal-health-monitoring.md) of this use case.
+
+**Solution approach:**
 
 - **On-estate inference, selective publication** ([ADR: Ride and Enclosure Feed Ingestion Strategy](ADRs/ADR-maintenance-feed-ingestion.md)): edge devices turn raw video/telemetry into compact, decision-ready events, deliberately biased toward over-flagging — a false "healthy" is worse than a false alarm.
-- **Disk-backed store-and-forward** ([ADR: Ride and Enclosure Event Delivery Strategy](ADRs/ADR-maintenance-event-delivery.md)): a connectivity gap delays an anomaly event, it never silently drops it.
+- **Disk-backed store-and-forward** ([ADR: Ride and Enclosure Event Delivery Strategy](ADRs/ADR-maintenance-event-delivery.md)): a connectivity gap delays an anomaly event; it never silently drops it.
 - **Grounded, cited work orders that fail closed** ([ADR: Work Order Guidance Strategy](ADRs/ADR-maintenance-work-order-guidance.md)): the Maintenance Copilot may only draft steps from retrieved estate manuals/vet records; on weak retrieval it escalates to a human rather than inventing a procedure.
 
-![Smart work order](assets/ux-05-smart-work-order.png "Smart work order — retrieved, cited, fail-closed on weak retrieval")
+![Maintenance quantum architecture](assets/maintenance-quantum-architecture.png "Maintenance quantum architecture")
 
-→ Full deep dive, golden-path sequence, and monitoring approach: [`usecases/hmw-03-animal-health-monitoring.md`](usecases/hmw-03-animal-health-monitoring.md)
+**Data flow:**
+
+![Maintenance quantum sequence](assets/maintenance-quantum-sequence.png "Maintenance quantum sequence")
+
+**Key screen:**
+
+![Smart work order](assets/ux-05-smart-work-order.png "Smart work order — retrieved, cited, fail-closed on weak retrieval")
 
 ### Visitor growth & retention use case
 
 **HMW use AI to turn first-time visitors into repeat visitors** — personalization and targeted marketing that drive return visits, so the estate grows revenue without relying purely on new-visitor acquisition?
 
+Refer [**detailed design**](usecases/hmw-04-return-visitor-personalization.md) of this use case.
+
+**Solution approach:**
+
 - **Event-driven, not a query into Analytics' internals**: the Marketing quantum subscribes to `VisitCompleted` events and reads visit history from the data lake via a published contract — it never reaches into Analytics' stores directly, mirroring the boundary [ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md) sets for Analytics' own consumers.
 - **Campaign rules and channels are swappable independently** of the recommendation logic — adding a channel (email, SMS) is additive, not a redeploy.
-- **A dismissed offer is a first-class event**, not just a UI action — this is what makes production monitoring of this use case possible at all (see [ADR: Production Monitoring & Drift Detection](ADRs/ADR-ai-vendor-risk-and-monitoring.md)).
+- **A dismissed offer is a first-class event**, not just a UI action — that published signal is what makes production monitoring of this use case possible (see [ADR: Production Monitoring & Drift Detection](ADRs/ADR-ai-vendor-risk-and-monitoring.md)).
+
+```mermaid
+flowchart LR
+    subgraph Visitors quantum
+        VC["VisitCompleted event"]
+    end
+    subgraph Analytics quantum
+        DL[("Data lake — visit history")]
+    end
+    subgraph Marketing quantum
+        CE["Campaign Engine"]
+        PR["Personalization Recommender"]
+    end
+    CMB[["Central Message Broker"]]
+    VC -- publish --> CMB
+    CMB -- VisitCompleted --> CE
+    CE -- reads --> DL
+    CE --> PR
+    PR -- "offer + reasoning" --> Channel{"In-app / Email / SMS"}
+    Channel --> Visitor(["Visitor"])
+    Visitor -- "OfferIssued / OfferDismissed" --> CMB
+    Visitor -- "Book" --> TS["Ticket Service"]
+```
+
+**Key screen:**
 
 ![Come back to the estate](assets/ux-07-return-visit-offer.png "Return offer — event-driven, dismissable, no redeploy required")
-
-→ Full deep dive (including a lightweight architecture sketch, since this is the one quantum without a dedicated diagram yet): [`usecases/hmw-04-return-visitor-personalization.md`](usecases/hmw-04-return-visitor-personalization.md)
 
 ## Limitations with adoption of AI
 
@@ -326,12 +384,12 @@ This use case deliberately spans two quanta — **Analytics** produces the insig
 
 ## Productionizing the AI-Powered System
 
-The estate brief asks a question: *"How will you know if your AI-driven functionality starts misbehaving once in production?"* Two ADRs answer two different halves of that question, and every quantum's use case reuses the same two mechanisms rather than inventing its own:
+The estate brief asks: *"How will you know if your AI-driven functionality starts misbehaving once in production?"* Two ADRs answer two halves of that question. Every quantum reuses the same two mechanisms rather than inventing its own.
 
-- **Vendor/provider risk** — [ADR: External AI Integration Strategy](ADRs/ADR-external-ai-integration.md). All AI calls, across all four quanta, go through one internal **AI Gateway** using a lowest-common-denominator schema. A provider price change, degradation, or shutdown is a gateway config change (reroute, fail over), never a rewrite of dispatch, triage, recommendation, or diagnostic logic.
-- **Behavioral drift / output-quality risk** — [ADR: Production Monitoring & Drift Detection](ADRs/ADR-ai-vendor-risk-and-monitoring.md). This is the direct answer to "misbehaving in production": every AI-derived decision, in every quantum, already passes through some human confirm/correct/override action (a keeper confirming a flagged animal, a manager approving a dispatch, a technician following a cited work order, a visitor accepting or skipping a recommendation). The **rolling human override rate**, tracked per model version, is the primary signal — a rise of more than 50% relative to its 30-day baseline pages an on-call engineer and pins the gateway to the last known-good model/prompt version, the same mechanism used for vendor failover. Scheduled offline evals against a held-out set back this up for low-review-volume paths (notably Staffing's auto-dispatched low-severity nudges) where a regression might not surface through overrides alone.
+- **AI Gateway — vendor and provider risk** ([ADR: External AI Integration Strategy](ADRs/ADR-external-ai-integration.md)). All AI calls, across all four use cases, go through one internal gateway using a lowest-common-denominator schema. A provider price change, degradation, or shutdown is a gateway config change (reroute, fail over), never a rewrite of dispatch, triage, recommendation, or diagnostic logic.
+- **Override rate and evals — behavioral drift** ([ADR: Production Monitoring & Drift Detection](ADRs/ADR-ai-vendor-risk-and-monitoring.md)). Every AI-derived decision already passes through a human confirm, correct, or override action (a keeper confirming a flagged animal, a manager approving a dispatch, a technician following a cited work order, a visitor accepting or skipping a recommendation). The **rolling human override rate**, tracked per model version, is the primary signal — a rise of more than 50% relative to its 30-day baseline pages an on-call engineer and pins the gateway to the last known-good model/prompt version, the same mechanism used for vendor failover. Scheduled offline evals against a held-out set back this up for low-review-volume paths (notably Staffing's auto-dispatched low-severity nudges) where a regression might not surface through overrides alone.
 
-Two design patterns recur across quanta because they turned out to generalize, not because we planned them centrally up front:
+Two patterns recur across quanta:
 
 - **Tiered human-in-the-loop authorization** — Staffing gates high-severity dispatch on manager approval while low-severity nudges auto-dispatch ([ADR: Authorization Model for AI Staff Dispatch](ADRs/ADR-staffing-ai-dispatch-authorization.md)); Analytics gates low-confidence insights the same way ([ADR: Dual Data Store Strategy](ADRs/ADR-dual-data-store-strategy.md)).
 - **Fail closed on low confidence or weak grounding** — Maintenance's copilot escalates rather than invents a procedure when retrieval is weak ([ADR: Work Order Guidance Strategy](ADRs/ADR-maintenance-work-order-guidance.md)); the same rule applies to Analytics' insight review and Visitors' recommendation fallback.
@@ -344,7 +402,9 @@ None of this assumes a trained, estate-specific model exists on day one — see 
 
 ## Anti-patterns
 
-- **Fully autonomous AI action on high-stakes physical decisions.** We deliberately rejected giving the GenAI Triage Dispatcher unsupervised write access to the `Staff Deployment Plan` for high-severity incidents — a hallucinated reading or a misrouted emergency involving exotic animals or heritage rides is not a risk worth the extra automation speed (see [ADR: Authorization Model for AI Staff Dispatch](ADRs/ADR-staffing-ai-dispatch-authorization.md)).
+These alternatives were considered and rejected. Each would have been faster to ship and worse in production.
+
+- **Fully autonomous AI action on high-stakes physical decisions.** Unsupervised write access to the `Staff Deployment Plan` for high-severity incidents was rejected — a hallucinated reading or a misrouted emergency involving exotic animals or heritage rides is not a risk worth the extra automation speed (see [ADR: Authorization Model for AI Staff Dispatch](ADRs/ADR-staffing-ai-dispatch-authorization.md)).
 - **Cloud-side inference on raw estate media.** Shipping raw acoustic/vibration telemetry or camera feeds to the cloud for inference was considered and rejected — it assumes an uplink the estate does not have, and makes cost scale with camera-hours rather than incidents (see [ADR: Ride and Enclosure Feed Ingestion Strategy](ADRs/ADR-maintenance-feed-ingestion.md)).
 - **Un-grounded generation for procedural guidance.** Letting the Maintenance Copilot draft root-cause and remediation steps from a general-purpose model's prior knowledge, with no citation to estate-specific manuals or vet records, was rejected — heritage rides and exotic species are exactly the domain a public model has never seen (see [ADR: Work Order Guidance Strategy](ADRs/ADR-maintenance-work-order-guidance.md)).
 - **Merging raw and AI-derived signals into one feed.** An early version of the Analytics architecture routed the live heatmap and the AI hotspot forecast through the same component and the same dashboard feed. We deliberately split them so staff can trust the raw feed unconditionally and treat the forecast as reviewable AI opinion (see [ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md)).
@@ -372,8 +432,10 @@ Not every use case needs a trained model to start. Several have a genuine cold-s
 
 ## Our Learnings
 
-- **Every AI feature needs a deterministic fallback decided at design time, not bolted on later.** The Visitors quantum's rule-based recommender and Maintenance's static thresholds turned out to double as both the Phase 0 MVP *and* the permanent safety net — designing the fallback first made the AI overlay strictly additive, never a single point of failure.
-- **"How do you know AI is working" is best answered as a first-class UI control, not a backend metric alone.** Approve/Correct on an insight, Approve/Reject on a dispatch — these UX screens are the production monitoring instrumentation, not just features. If a human action already exists to confirm or reject an AI output, the override rate falls out of the design almost for free.
-- **Human-in-the-loop tiering generalized across quanta we didn't originally connect.** We designed Staffing's severity-tiered approval and Maintenance's fail-closed grounding independently; only in hindsight did we notice they're the same pattern (auto for low-stakes, gated for high-stakes) applied to two unrelated domains — worth actively looking for this reuse earlier next time.
-- **Modeling cost only at the AI-assisted steady state overstates near-term savings.** Adding the maturity curve to the roadmap made our cost analysis more credible, not less — judges and stakeholders alike will ask "what does month one look like," and "the same as today, on purpose" is a stronger answer than silence.
+Designing AURA for the Von Digitalis estate surfaced a few patterns worth carrying forward.
+
+- **Every AI feature needs a deterministic fallback decided at design time, not bolted on later.** The Visitors quantum's rule-based recommender and Maintenance's static thresholds doubled as both the Phase 0 MVP *and* the permanent safety net — designing the fallback first made the AI overlay strictly additive, never a single point of failure.
+- **"How do you know AI is working" is best answered as a first-class UI control, not a backend metric alone.** Approve/Correct on an insight, Approve/Reject on a dispatch — these screens are the production-monitoring instrumentation, not just features. If a human action already exists to confirm or reject an AI output, the override rate falls out of the design.
+- **Human-in-the-loop tiering generalized across quanta.** Staffing's severity-tiered approval and Maintenance's fail-closed grounding are the same pattern (auto for low-stakes, gated for high-stakes) applied to two unrelated domains — looking for that reuse earlier would have shortened the design.
+- **Modeling cost only at the AI-assisted steady state overstates near-term savings.** The maturity curve makes the cost analysis more credible: month one looks like today, on purpose, and savings arrive as each quantum crosses its data threshold.
 
