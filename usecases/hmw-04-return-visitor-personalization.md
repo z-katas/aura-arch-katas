@@ -18,28 +18,7 @@ Twelve days after Elena Hart's first visit, she's offered a 20% Family Day Pass 
 
 ## High-level solution approach
 
-```mermaid
-flowchart LR
-    subgraph Visitors quantum
-        VC["VisitCompleted event"]
-    end
-    subgraph Analytics quantum
-        DL[("Data lake — visit history")]
-    end
-    subgraph Marketing quantum
-        CE["Campaign Engine — trigger, audience, channel rules"]
-        PR["Personalization Recommender"]
-    end
-    CMB[["Central Message Broker"]]
-    VC -- publish --> CMB
-    CMB -- VisitCompleted --> CE
-    CE -- reads --> DL
-    CE --> PR
-    PR -- "recommended offer + reasoning" --> Channel{"In-app / Email / SMS"}
-    Channel --> Visitor(["Visitor"])
-    Visitor -- "OfferIssued / OfferDismissed" --> CMB
-    Visitor -- "Book this Saturday" --> TS["Ticket Service"]
-```
+![Marketing quantum architecture](../assets/marketing-quantum-architecture.png "Marketing quantum — return visitor personalization")
 
 - **Adaptability and Interoperability are the top driving characteristics** ([architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md)) because campaign rules, audience segments, and delivery channels are expected to change often — an event-driven style lets Marketing subscribe to Visitor and Analytics events and add or swap delivery channels without touching Visitor or Analytics internals, and without a Marketing redeploy every time a rule changes.
 - **Marketing reads, it never writes into another quantum's store.** Visit history comes from the data lake via a published-event contract, the same boundary [ADR: Separate Raw Telemetry Path from AI-Derived Insight Path](../ADRs/ADR-separate-raw-and-ai-derived-paths.md) establishes for Analytics' own consumers.
