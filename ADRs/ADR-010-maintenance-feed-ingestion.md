@@ -6,7 +6,7 @@ Accepted
 ## Context
 The Maintenance quantum watches **40 vintage rides** (high-frequency acoustic and vibration telemetry) and **55 enclosures** (continuous camera and sensor feeds, including jumping piranhas) — see the [Maintenance quantum architecture](../assets/maintenance-quantum-architecture.png) and [sequence](../assets/maintenance-quantum-sequence.png). Per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md), this quantum is driven by **Data Integrity**, **Extensibility**, and **Deployability**: a missed or invented "healthy" reading is worse than a slow one, and new ride or enclosure types will appear over the 3-year growth window.
 
-The estate constraint is **patchy Wi-Fi** with **MQTT as the only sanctioned path** from the grounds to the cloud. Streaming raw telemetry and video is not viable: the pipe cannot carry it, cloud ingest and storage cost would erase the [keeper-hour savings](../design_docs/cost-analysis.md) this use case is meant to create, and a wifi drop mid-stream would lose the exact moments we care about (a bearing going bad, a piranha count change).
+The estate constraint is **patchy Wi-Fi** with **MQTT as the only sanctioned path** from the grounds to the cloud. Streaming raw telemetry and video is not viable: the pipe cannot carry it, cloud ingest and storage cost would erase the [keeper-hour savings](../design_docs/cost-analysis.md) this use case is meant to create, and a wifi drop mid-stream would lose the exact moments we care about (a bearing going bad, a piranha biomass drop).
 
 The cloud still needs a signal: filtered ride anomalies for the predictive wear model, and compact health / count summaries for the multimodal animal-health engine and the RAG maintenance copilot. The question this ADR answers is **what is allowed to leave the estate**, not which model brand sits on the device.
 
@@ -21,7 +21,9 @@ We adopt **on-estate inference with selective MQTT publication**. Raw ride telem
 
 Specifically:
 - Ride-side devices run small acoustic / vibration models and publish **filtered anomaly payloads** (not the waveform).
-- Enclosure-side devices run vision models and publish **health and count summaries** (not the camera stream). Edge vision is biased toward **over-flagging** — a false "healthy" is worse than a false alarm, as already noted for this use case.
+- Enclosure-side devices publish **health and population-health summaries** (not the camera stream). Edge inference is biased toward **over-flagging** — a false "healthy" is worse than a false alarm.
+  - **Land enclosures**: on-device VLMs count and assess animal posture/behaviour from camera feeds. Camera-based counting is viable for large, slower-moving, spatially separated animals.
+  - **Aquatic enclosures (piranhas)**: camera-based headcounts are not reliable for fast-moving, occluded, schooling fish. Instead, three signals are combined on-device: a **biomass sensor** (tank weight ÷ avg fish weight → estimated count), a **feeding-station load cell** (consumption drop relative to registered population), and a **behavioural VLM** (surface crowding, lethargy, unusual schooling — not counting). A population anomaly event is published when biomass or feeding signals deviate beyond threshold from the keeper-maintained Animal Population Registry.
 - The MQTT gateway **store-and-forwards** those payloads and syncs when wifi returns, matching the estate's MQTT-only constraint.
 - Cloud services (predictive wear, multimodal animal health, RAG maintenance copilot) subscribe to those events. They do not pull raw estate media.
 - TinyML (rides) and on-device VLMs (enclosures) are the **current** runtimes that implement this. They can be replaced without changing the ingestion contract — the ADR is the contract, not the chip.
