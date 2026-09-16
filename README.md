@@ -342,28 +342,7 @@ Refer [**detailed design**](usecases/hmw-04-return-visitor-personalization.md) o
 - **Campaign rules and channels are swappable independently** of the recommendation logic — adding a channel (email, SMS) is additive, not a redeploy.
 - **A dismissed offer is a first-class event**, not just a UI action — that published signal is what makes production monitoring of this use case possible (see [ADR: Production Monitoring & Drift Detection](ADRs/ADR-ai-vendor-risk-and-monitoring.md)).
 
-```mermaid
-flowchart LR
-    subgraph Visitors quantum
-        VC["VisitCompleted event"]
-    end
-    subgraph Analytics quantum
-        DL[("Data lake — visit history")]
-    end
-    subgraph Marketing quantum
-        CE["Campaign Engine"]
-        PR["Personalization Recommender"]
-    end
-    CMB[["Central Message Broker"]]
-    VC -- publish --> CMB
-    CMB -- VisitCompleted --> CE
-    CE -- reads --> DL
-    CE --> PR
-    PR -- "offer + reasoning" --> Channel{"In-app / Email / SMS"}
-    Channel --> Visitor(["Visitor"])
-    Visitor -- "OfferIssued / OfferDismissed" --> CMB
-    Visitor -- "Book" --> TS["Ticket Service"]
-```
+![Marketing quantum architecture](assets/marketing-quantum-architecture.png "Marketing quantum — return visitor personalization")
 
 **Key screen:**
 
