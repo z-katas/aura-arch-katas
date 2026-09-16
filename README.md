@@ -251,7 +251,7 @@ Now that the five quanta are identified, here's how they compose into one system
 
 ## Detailed architecture designs
 
-Each use case below is summarized here; the full write-up (data flow, component detail, every relevant ADR) lives in `[usecases/](usecases/)`.
+Each use case below is summarized here; the full write-up (data flow, component detail, every relevant ADR) lives in [`usecases/`](usecases/).
 
 ### Ticketing & visitor experience use case
 
@@ -265,7 +265,7 @@ Each use case below is summarized here; the full write-up (data flow, component 
 
 ![Book your visit](assets/ux-01-ticket-pass-assistant.png "Book your visit — pass assistant recommendation")
 
-→ Full deep dive, golden-path sequence, and monitoring approach: `[usecases/hmw-01-ticket-pass-assistant.md](usecases/hmw-01-ticket-pass-assistant.md)`
+→ Full deep dive, golden-path sequence, and monitoring approach: [`usecases/hmw-01-ticket-pass-assistant.md`](usecases/hmw-01-ticket-pass-assistant.md)
 
 ### Popularity / footfall analytics use case
 
@@ -283,7 +283,7 @@ This use case deliberately spans two quanta — **Analytics** produces the insig
 
 ![Live operations](assets/ux-02-staff-live-ops.png "Live operations — current vs. forecast, side by side")
 
-→ Full deep dive, golden-path sequence, and monitoring approach: `[usecases/hmw-02-footfall-staff-deployment.md](usecases/hmw-02-footfall-staff-deployment.md)`
+→ Full deep dive, golden-path sequence, and monitoring approach: [`usecases/hmw-02-footfall-staff-deployment.md`](usecases/hmw-02-footfall-staff-deployment.md)
 
 ### Animal health & welfare monitoring use case
 
@@ -297,7 +297,7 @@ This use case deliberately spans two quanta — **Analytics** produces the insig
 
 ![Smart work order](assets/ux-05-smart-work-order.png "Smart work order — retrieved, cited, fail-closed on weak retrieval")
 
-→ Full deep dive, golden-path sequence, and monitoring approach: `[usecases/hmw-03-animal-health-monitoring.md](usecases/hmw-03-animal-health-monitoring.md)`
+→ Full deep dive, golden-path sequence, and monitoring approach: [`usecases/hmw-03-animal-health-monitoring.md`](usecases/hmw-03-animal-health-monitoring.md)
 
 ### Visitor growth & retention use case
 
@@ -309,7 +309,7 @@ This use case deliberately spans two quanta — **Analytics** produces the insig
 
 ![Come back to the estate](assets/ux-07-return-visit-offer.png "Return offer — event-driven, dismissable, no redeploy required")
 
-→ Full deep dive (including a lightweight architecture sketch, since this is the one quantum without a dedicated diagram yet): `[usecases/hmw-04-return-visitor-personalization.md](usecases/hmw-04-return-visitor-personalization.md)`
+→ Full deep dive (including a lightweight architecture sketch, since this is the one quantum without a dedicated diagram yet): [`usecases/hmw-04-return-visitor-personalization.md`](usecases/hmw-04-return-visitor-personalization.md)
 
 ## Limitations with adoption of AI
 
