@@ -20,30 +20,6 @@ Using the Architecture Characteristics and Architecture Styles worksheets, AURA 
 | **Analytics** | Data Integrity, Interoperability, Adaptability | Data Consistency, Fault Tolerance | Event-driven | Aggregates every other quantum's data; must stay correct and pluggable |
 | **Marketing** | Adaptability, Interoperability, Deployability | Data Integrity, Availability | Event-driven | Campaign rules and channels will change frequently; event subscriptions let Marketing react to behavior without coupling to Analytics or Visitor internals |
 
-### Marketing Quantum Worksheet
-
-#### Architecture Characteristics
-
-| Worksheet Field | Selection |
-| --- | --- |
-| **System/Project** | Von Digitalis Estate |
-| **Architect/Team** | AURA |
-| **Domain/Quantum** | Marketing |
-| **Top 3 Driving Characteristics** | Adaptability, Interoperability, Deployability |
-| **Implicit Characteristics** | Security, Privacy |
-| **Others Considered** | Data Integrity, Availability |
-
-#### Architecture Style
-
-| Worksheet Field | Selection |
-| --- | --- |
-| **System/Project** | Von Digitalis Estate |
-| **Architect/Team** | AURA |
-| **Domain/Quantum** | Marketing |
-| **Selected Architecture Style** | Event-driven |
-
-**Marketing style rationale:** Campaign rules, audience definitions, and delivery channels will change frequently. An event-driven style lets Marketing subscribe to visitor and analytics events, publish campaign and engagement events, and add or replace delivery channels without coupling to the internal implementation of the Visitor or Analytics quanta.
-
 ## AI Use Cases
 
 | # | Use Case | Top 3 NFRs | Implicit |

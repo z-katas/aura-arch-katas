@@ -187,17 +187,11 @@ Four AI-enabled use cases were prioritized for this kata:
 
 ## Golden Path — Actor Lifecycles
 
-In EventStorming, the **golden path** is the sequence of events when a process completes exactly as intended — no exceptions, no errors. It's established early to give the team a shared timeline before layering in edge cases and policies.
+In Event Storming, the **golden path** is the sequence of events when a process completes exactly as intended — no exceptions, no errors. It's established early to give the team a shared timeline before layering in edge cases and policies.
 
-Each lane below is one actor's golden path — the steps that must succeed, in order, for their session to count as a success. Failure branches (failed safety checks, payment retries, flagged anomalies) are documented on the individual event-storming boards, not here.
+Each lane below is one actor's golden path — the steps that must succeed, in order, for their session to count as a success.
 
 ![Golden path swimlanes](/assets/golden_path.png "Golden path swimlanes")
-
-### Notable design decisions
-
-- **Visitor and Estate Owner lanes end in named outcomes** ("Happy visitor experience," "Single digital platform") rather than a generic End — the two goals the rest of the architecture is accountable to stay visible on the board.
-- **Every staff lane shares the same session shape** (log in → do the job → log out). That reuse is why Ride, Animal Care, and Front Office collapsed into shared Staffing and Maintenance boundaries instead of three bespoke staff systems.
-- Full observations are in [design_docs/golden-path-actor-lifecycles.md](design_docs/golden-path-actor-lifecycles.md#observations).
 
 
 
@@ -245,7 +239,7 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 
 ## Architecture blueprint
 
-The five quanta compose into one system. The context view shows who talks to AURA; the container view shows how the quanta connect. The legend is consistent across both: AI/ML components (purple) stay visually distinct from deterministic application services (green), message brokers (blue), and persistent storage (cylinders) — the same "AI-derived vs. ground truth" separation from [ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md), applied at the system level, not only inside Analytics.
+The five quanta compose into one system. The context view shows who talks; the container view shows how the quanta connect. The legend is consistent across both: AI/ML components (purple) stay visually distinct from deterministic application services (green), message brokers (blue), and persistent storage (cylinders) — the same "AI-derived vs. ground truth" separation from [ADR: Separate Raw Telemetry Path](ADRs/ADR-separate-raw-and-ai-derived-paths.md), applied at the system level, not only inside Analytics.
 
 ### C1 - Context view
 
@@ -257,13 +251,13 @@ The five quanta compose into one system. The context view shows who talks to AUR
 
 ## Detailed architecture designs
 
-Each use case below is summarized here; the full write-up (data flow, component detail, every relevant ADR) lives in [`usecases/`](usecases/).
+Each use case below is summarized here; the full write-up (data flow, component detail, every relevant ADR) lives in [`usecases`](usecases/).
 
 ### Ticketing & visitor experience use case
 
 **HMW use AI to make buying tickets effortless** — assisted ticket purchase, family pass recommendations, and in-park wayfinding, so visitors spend less time figuring out logistics and more time enjoying the estate?
 
-Refer [**detailed design**](usecases/hmw-01-ticket-pass-assistant.md) of this use case.
+Refer to [**detailed design**](usecases/hmw-01-ticket-pass-assistant.md) of this use case.
 
 **Solution approach:**
 
@@ -287,7 +281,7 @@ Refer [**detailed design**](usecases/hmw-01-ticket-pass-assistant.md) of this us
 
 This use case spans two quanta — **Analytics** produces the insight, **Staffing** acts on it.
 
-Refer [**detailed design**](usecases/hmw-02-footfall-staff-deployment.md) of this use case.
+Refer to [**detailed design**](usecases/hmw-02-footfall-staff-deployment.md) of this use case.
 
 **Solution approach:**
 
@@ -312,7 +306,7 @@ Refer [**detailed design**](usecases/hmw-02-footfall-staff-deployment.md) of thi
 
 **HMW use AI to keep the animal collection healthy without adding headcount** — computer vision and sensor-based monitoring of feeding, health, and piranha population levels, so issues are caught early rather than discovered too late?
 
-Refer [**detailed design**](usecases/hmw-03-animal-health-monitoring.md) of this use case.
+Refer to [**detailed design**](usecases/hmw-03-animal-health-monitoring.md) of this use case.
 
 **Solution approach:**
 
@@ -334,7 +328,7 @@ Refer [**detailed design**](usecases/hmw-03-animal-health-monitoring.md) of this
 
 **HMW use AI to turn first-time visitors into repeat visitors** — personalization and targeted marketing that drive return visits, so the estate grows revenue without relying purely on new-visitor acquisition?
 
-Refer [**detailed design**](usecases/hmw-04-return-visitor-personalization.md) of this use case.
+Refer to [**detailed design**](usecases/hmw-04-return-visitor-personalization.md) of this use case.
 
 **Solution approach:**
 
@@ -411,7 +405,7 @@ Not every use case needs a trained model to start. Several have a genuine cold-s
 
 ## Our Learnings
 
-Designing AURA for the Von Digitalis estate surfaced a few patterns worth carrying forward.
+Designing for the Von Digitalis estate surfaced a few patterns worth carrying forward.
 
 - **Every AI feature needs a deterministic fallback decided at design time, not bolted on later.** The Visitors quantum's rule-based recommender and Maintenance's static thresholds doubled as both the Phase 0 MVP *and* the permanent safety net — designing the fallback first made the AI overlay strictly additive, never a single point of failure.
 - **"How do you know AI is working" is best answered as a first-class UI control, not a backend metric alone.** Approve/Correct on an insight, Approve/Reject on a dispatch — these screens are the production-monitoring instrumentation, not just features. If a human action already exists to confirm or reject an AI output, the override rate falls out of the design.

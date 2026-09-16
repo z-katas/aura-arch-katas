@@ -20,7 +20,6 @@ Specifically:
 - **Interoperability** — new consumers (e.g. a future BI tool, or a new AI use case) can subscribe to existing event streams without any change to producers or to Analytics' internals.
 - **Adaptability** — new physical data sources (e.g. a new sensor type) only need to publish to the broker in the agreed event schema; no coordination needed with every downstream consumer.
 - **Data integrity** — the event log is the durable source of truth; a consumer outage (e.g. a dashboard being down) cannot cause data loss, since events remain on the broker until consumed.
-- Matches our [worksheet-selected style](../other_design_docs/architecture-characteristics.md) for this quantum, keeping our documented characteristics and actual design consistent.
 
 **Negative / trade-offs:**
 - Eventual consistency — dashboards and downstream consumers see analytics with some lag relative to when an event was produced, which is acceptable for popularity/trend reporting but must be kept in mind if a future use case needs near-instant consistency.
