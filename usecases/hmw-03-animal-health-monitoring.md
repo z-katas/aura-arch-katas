@@ -28,7 +28,7 @@ Three decisions, each answering a different part of "what happens between a sens
 2. **How it survives patchy Wi-Fi** ([ADR: Ride and Enclosure Event Delivery Strategy](../ADRs/ADR-011-maintenance-event-delivery.md)) — disk-backed store-and-forward at the edge gateway, QoS 1 to the Central MQTT Broker, idempotent-on-event-id consumers. A dead zone produces a delayed backlog, drained severity-first on reconnect, never a silent gap.
 3. **What a keeper is handed once an anomaly lands** ([ADR: Work Order Guidance Strategy](../ADRs/ADR-012-maintenance-work-order-guidance.md)) — retrieve-then-generate over a versioned corpus of the estate's own vintage ride manuals and veterinary records, cited, fail-closed to a generic escalation when retrieval is weak.
 
-## Golden path
+## Sequence Diagram
 
 ![Maintenance quantum sequence](../assets/maintenance-quantum-sequence.png "Maintenance quantum sequence")
 

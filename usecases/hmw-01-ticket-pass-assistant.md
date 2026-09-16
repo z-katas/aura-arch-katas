@@ -25,7 +25,7 @@ A party of four tells the assistant who's coming and what they want to do, in th
 - **Real-time Safety/Urgency Triage** on the post-visit feedback path (a lightweight classifier, not the same model as the recommender) flags urgent safety feedback for immediate routing to Staffing/Maintenance, separately from routine feedback that flows to Analytics for sentiment/theme mining.
 - Everything the assistant and the triage classifier produce publishes onto the **Central Message Broker**, which is how Analytics (footfall/ticketing events), Marketing (identified visit history only, never raw feedback text — privacy boundary shown explicitly in the diagram), and Staffing/Maintenance (urgent flags only) each get exactly the slice of data they need without coupling to Visitors' internals.
 
-## Golden path
+## Sequence Diagram
 
 ![Visitors quantum sequence](../assets/visitors-quantum-sequence.png "Ticket & Family Pass purchase — golden path")
 

@@ -25,7 +25,7 @@ Twelve days after Elena Hart's first visit, she's offered a 20% Family Day Pass 
 - **The Personalization Recommender calls the shared Internal AI Gateway** ([ADR: External AI Integration Strategy](../ADRs/ADR-002-external-ai-integration.md)) for the "why you're seeing this" reasoning text — same vendor-failover and cost-control guarantees as the Visitors and Staffing quanta, no Marketing-specific provider logic.
 - **A dismissed offer is a first-class event (`OfferDismissed`), not a UI-only action.** This is what makes the override signal for this quantum (see below) possible at all — if dismissal weren't published, there'd be nothing to measure.
 
-## Golden path
+## Sequence Diagram
 
 1. Visitors quantum publishes `VisitCompleted` to the Central Message Broker at the end of a visit.
 2. Marketing's Campaign Engine, subscribed to that event type, checks the rule ("no return in 21 days") against the data lake's visit history.

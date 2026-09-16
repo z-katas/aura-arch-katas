@@ -34,7 +34,7 @@ The Estate Owner's dashboard makes the production-monitoring story concrete: an 
 - **Tiered human authorization on dispatch** ([ADR: Authorization Model for AI Staff Dispatch](../ADRs/ADR-013-staffing-ai-dispatch-authorization.md)): low-severity crowd nudges write straight to the deployment plan; high-severity proposals block the field MQTT push until a manager approves, with a 45-second escalation matrix as the safety net if nobody's watching.
 - Both quanta call the **same Internal AI Gateway** as the Visitors quantum ([ADR: External AI Integration Strategy](../ADRs/ADR-002-external-ai-integration.md)) — one place to fail over a provider, one place to roll back a model version.
 
-## Golden path
+## Sequence Diagram
 
 1. MQTT telemetry (footfall counters, gate scans) publishes to the Central Message Broker.
 2. Stream Processor aggregates it into the live heatmap feed — published directly, no AI, no confidence score, no delay beyond normal processing.
