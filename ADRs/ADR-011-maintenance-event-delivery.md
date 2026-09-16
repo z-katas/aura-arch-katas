@@ -4,11 +4,11 @@
 Accepted
 
 ## Context
-[ADR: Ride and Enclosure Feed Ingestion Strategy](ADR-maintenance-feed-ingestion.md) decided **what** leaves the estate: compact anomaly payloads and health / count summaries, not raw video or waveforms. This ADR decides **how those events reach the cloud** when Wi-Fi drops — the normal condition on the grounds, not an edge case.
+[ADR: Ride and Enclosure Feed Ingestion Strategy](ADR-010-maintenance-feed-ingestion.md) decided **what** leaves the estate: compact anomaly payloads and health / count summaries, not raw video or waveforms. This ADR decides **how those events reach the cloud** when Wi-Fi drops — the normal condition on the grounds, not an edge case.
 
 Maintenance is driven by **Data Integrity** first ([architecture characteristics](../design_docs/architecture-characteristics-styles.md)). A ride-failure or animal-health event that exists only in a failed in-flight publish is a silent "healthy." That is worse than the cloud seeing the same event a few minutes late. The [Maintenance quantum architecture](../assets/maintenance-quantum-architecture.png) already shows an MQTT gateway on the edge and a Central MQTT Broker in the cloud; the [sequence](../assets/maintenance-quantum-sequence.png) is the outage path: queue on disk, flush on reconnect.
 
-This is the same estate constraint as [ADR: Field Staff App Connectivity Strategy](ADR-staffing-field-app-connectivity.md), on a different hop: here the publisher is a ride or enclosure gateway, not a staff handheld.
+This is the same estate constraint as [ADR: Field Staff App Connectivity Strategy](ADR-014-staffing-field-app-connectivity.md), on a different hop: here the publisher is a ride or enclosure gateway, not a staff handheld.
 
 We considered three alternatives:
 

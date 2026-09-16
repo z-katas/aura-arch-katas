@@ -21,7 +21,7 @@ We adopt **AI as an optional, advisory overlay** on top of a fully deterministic
 
 Specifically:
 - The **Assistant** only ever produces a *recommendation* (a suggested bundle plus its reasoning) back to the Web/Mobile App. It never writes an order, holds inventory, or touches payment — the visitor still confirms through the ordinary Catalog → Capacity → Order → Payment → Issuance path, which functions with or without the Assistant.
-- The Assistant calls out through the shared [Internal AI Gateway](ADR-external-ai-integration.md) (the same vendor-agnostic facade used by the Staffing quantum's dispatcher), so a provider outage or swap is an ops change, not a Visitors redeploy.
+- The Assistant calls out through the shared [Internal AI Gateway](ADR-002-external-ai-integration.md) (the same vendor-agnostic facade used by the Staffing quantum's dispatcher), so a provider outage or swap is an ops change, not a Visitors redeploy.
 - On timeout or low model confidence, the Assistant's caller falls through to a local **Rule-Based Pass Recommender** — plain conditional logic over party size, ages, and stated interests, with no external call — so a visitor is never blocked from buying a ticket by an AI outage.
 - Dynamic, per-visitor pricing driven by the model is explicitly out of scope; pricing stays in the deterministic Catalog Service's rule set.
 

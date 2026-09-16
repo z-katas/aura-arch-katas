@@ -24,4 +24,4 @@ Specifically:
 **Negative / trade-offs:**
 - Eventual consistency — dashboards and downstream consumers see analytics with some lag relative to when an event was produced, which is acceptable for popularity/trend reporting but must be kept in mind if a future use case needs near-instant consistency.
 - Operational complexity — running and monitoring a message broker is more infrastructure than a simple request/response API, and event schema changes need versioning discipline to avoid breaking existing consumers.
-- Debugging a multi-hop event flow (sensor → broker → stream processor → AI agent → consumer) is harder than tracing a single synchronous call chain; this is mitigated by the request/response logging already required in [ADR](ADR-ai-vendor-risk-and-monitoring.md).
+- Debugging a multi-hop event flow (sensor → broker → stream processor → AI agent → consumer) is harder than tracing a single synchronous call chain; this is mitigated by the request/response logging already required in [ADR](ADR-001-ai-vendor-risk-and-monitoring.md).

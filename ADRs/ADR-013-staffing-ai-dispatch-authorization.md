@@ -6,7 +6,7 @@ Accepted
 ## Context
 The Staffing quantum uses a Generative AI Triage Agent to read incident logs, parse multi-modal MQTT sensor data, and draft routing orders onto the `Staff Deployment Plan` — at a crowd scale of up to 15,000 visitors/day. See the [Staffing quantum architecture](../assets/staffing-quantum-architecture.png) and [sequence](../assets/staffing-quantum-sequence.png). Per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md), Staffing is driven by **Fault Tolerance**, **Availability**, and **Usability**, but the estate brief also requires us to **verify AI-driven functionality** and detect misbehavior in production. GenAI is non-deterministic: a hallucinated reading or a misrouted emergency (vintage-ride breakdown, jumping-piranha anomaly, medical incident) must not autonomously redeploy the estate's emergency personnel.
 
-This is the same "AI opinion vs. ground truth" seam called out for analytics-produced deployment suggestions in [ADR: Separate Raw Telemetry Path from AI-Derived Insight Path](ADR-separate-raw-and-ai-derived-paths.md). The MQTT push itself is the field delivery path defined in [ADR: Field Staff App Connectivity Strategy](ADR-staffing-field-app-connectivity.md).
+This is the same "AI opinion vs. ground truth" seam called out for analytics-produced deployment suggestions in [ADR: Separate Raw Telemetry Path from AI-Derived Insight Path](ADR-004-separate-raw-and-ai-derived-paths.md). The MQTT push itself is the field delivery path defined in [ADR: Field Staff App Connectivity Strategy](ADR-014-staffing-field-app-connectivity.md).
 
 We considered three alternatives:
 

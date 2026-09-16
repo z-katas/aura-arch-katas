@@ -13,7 +13,7 @@ Quantum: **Marketing**. Marketing is a thin, event-driven consumer of published 
 Twelve days after Elena Hart's first visit, she's offered a 20% Family Day Pass for the following Saturday, with the reasoning shown inline: her children asked for the jumping piranhas again, the carousel lawn was her second stop, and the typical return window for a first-time visitor is 21 days (she's inside it). Three things about this screen are architecturally deliberate, not just UX polish:
 
 - **"Dismissing this does not require a Marketing redeploy. The campaign rule stays; your preference is just another event."** — a rejected offer is data, not a code change.
-- **The campaign card names its own inputs and outputs explicitly**: trigger (`VisitCompleted` + no return in 21 days), reads (visit history from the data lake), publishes (`OfferIssued` / `OfferDismissed`), and channel (in-app now, email/SMS pluggable later) — this is the [ADR: Event-Driven Architecture Style](../ADRs/ADR-analytics-event-driven-style.md) pattern applied to Marketing instead of Analytics.
+- **The campaign card names its own inputs and outputs explicitly**: trigger (`VisitCompleted` + no return in 21 days), reads (visit history from the data lake), publishes (`OfferIssued` / `OfferDismissed`), and channel (in-app now, email/SMS pluggable later) — this is the [ADR: Event-Driven Architecture Style](../ADRs/ADR-005-analytics-event-driven-style.md) pattern applied to Marketing instead of Analytics.
 - **"Personalization Recommender is a Marketing consumer of published insight, not a query into Analytics' stores."** — the footnote is the architecture: Marketing never reaches into Analytics' internals, only its published events.
 
 ## High-level solution approach
@@ -21,8 +21,8 @@ Twelve days after Elena Hart's first visit, she's offered a 20% Family Day Pass 
 ![Marketing quantum architecture](../assets/marketing-quantum-architecture.png "Marketing quantum — return visitor personalization")
 
 - **Adaptability and Interoperability are the top driving characteristics** ([architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md)) because campaign rules, audience segments, and delivery channels are expected to change often — an event-driven style lets Marketing subscribe to Visitor and Analytics events and add or swap delivery channels without touching Visitor or Analytics internals, and without a Marketing redeploy every time a rule changes.
-- **Marketing reads, it never writes into another quantum's store.** Visit history comes from the data lake via a published-event contract, the same boundary [ADR: Separate Raw Telemetry Path from AI-Derived Insight Path](../ADRs/ADR-separate-raw-and-ai-derived-paths.md) establishes for Analytics' own consumers.
-- **The Personalization Recommender calls the shared Internal AI Gateway** ([ADR: External AI Integration Strategy](../ADRs/ADR-external-ai-integration.md)) for the "why you're seeing this" reasoning text — same vendor-failover and cost-control guarantees as the Visitors and Staffing quanta, no Marketing-specific provider logic.
+- **Marketing reads, it never writes into another quantum's store.** Visit history comes from the data lake via a published-event contract, the same boundary [ADR: Separate Raw Telemetry Path from AI-Derived Insight Path](../ADRs/ADR-004-separate-raw-and-ai-derived-paths.md) establishes for Analytics' own consumers.
+- **The Personalization Recommender calls the shared Internal AI Gateway** ([ADR: External AI Integration Strategy](../ADRs/ADR-002-external-ai-integration.md)) for the "why you're seeing this" reasoning text — same vendor-failover and cost-control guarantees as the Visitors and Staffing quanta, no Marketing-specific provider logic.
 - **A dismissed offer is a first-class event (`OfferDismissed`), not a UI-only action.** This is what makes the override signal for this quantum (see below) possible at all — if dismissal weren't published, there'd be nothing to measure.
 
 ## Golden path
@@ -40,7 +40,7 @@ Twelve days after Elena Hart's first visit, she's offered a 20% Family Day Pass 
 
 ## How this is monitored in production
 
-Per [ADR: Production Monitoring & Drift Detection](../ADRs/ADR-ai-vendor-risk-and-monitoring.md), `OfferDismissed` (as a fraction of `OfferIssued`) is Marketing's override signal — a rising dismissal rate for a given campaign or recommendation version is the drift signal, tracked the same way Analytics tracks insight overrides and Staffing tracks dispatch corrections. It carries the same caveat noted for the Visitors use case: dismissal can mean "the recommendation was wrong" or "not interested in returning right now for unrelated reasons," so it's directional, not a hard gate, until a stronger explicit reason-for-dismissal signal is added to the UI.
+Per [ADR: Production Monitoring & Drift Detection](../ADRs/ADR-001-ai-vendor-risk-and-monitoring.md), `OfferDismissed` (as a fraction of `OfferIssued`) is Marketing's override signal — a rising dismissal rate for a given campaign or recommendation version is the drift signal, tracked the same way Analytics tracks insight overrides and Staffing tracks dispatch corrections. It carries the same caveat noted for the Visitors use case: dismissal can mean "the recommendation was wrong" or "not interested in returning right now for unrelated reasons," so it's directional, not a hard gate, until a stronger explicit reason-for-dismissal signal is added to the UI.
 
 ## Phased rollout for this use case
 

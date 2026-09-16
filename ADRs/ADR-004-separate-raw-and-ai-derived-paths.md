@@ -7,7 +7,7 @@ Accepted
 Early versions of our [Analytics quantum architecture](../assets/analytics-quantum-architecture.png) routed the Staff Dashboard's live heatmap feed through the AI Analytics Agent, alongside AI-generated hotspot forecasts. On review, this conflated two fundamentally different kinds of data with different trust, latency, and explainability needs:
 
 - **Raw operational data** (current footfall counts, queue lengths) — deterministic, low-latency, needs no explanation or human review.
-- **AI-derived insight** (hotspot forecasts, deployment suggestions) — probabilistic, subject to the confidence-based review process defined in [ADR](ADR-ai-vendor-risk-and-monitoring.md), and must carry reasoning for explainability.
+- **AI-derived insight** (hotspot forecasts, deployment suggestions) — probabilistic, subject to the confidence-based review process defined in [ADR](ADR-001-ai-vendor-risk-and-monitoring.md), and must carry reasoning for explainability.
 
 Routing both through the same component made it unclear to staff which numbers on their dashboard were "ground truth" versus "AI opinion" — a distinction our judges' evaluation criteria (explainability, validation of AI results) explicitly care about.
 

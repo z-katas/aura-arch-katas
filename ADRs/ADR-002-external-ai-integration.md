@@ -6,7 +6,7 @@ Accepted
 ## Context
 The estate brief (and the judges' criteria) requires us to architect for **AI volatility**: today's best model may be obsolete tomorrow, a provider may change pricing overnight, or a vendor may shut down. Hardcoding the Staff Service or its agents to a proprietary SDK (OpenAI, Anthropic, and so on) locks us to that vendor's schema and client. A price hike or outage would then mean rewriting core dispatch logic — downtime the Staffing quantum cannot afford, given [Fault Tolerance, Availability, and Responsiveness](../design_docs/architecture-characteristics-styles.md).
 
-The GenAI Triage Dispatcher from [ADR: Authorization Model for AI Staff Dispatch](ADR-staffing-ai-dispatch-authorization.md) is the first consumer of this integration; a Shift Roster Optimizer (and any later staffing agent) must use the same path so a provider swap is an ops change, not a rewrite.
+The GenAI Triage Dispatcher from [ADR: Authorization Model for AI Staff Dispatch](ADR-013-staffing-ai-dispatch-authorization.md) is the first consumer of this integration; a Shift Roster Optimizer (and any later staffing agent) must use the same path so a provider swap is an ops change, not a rewrite.
 
 We considered three alternatives:
 

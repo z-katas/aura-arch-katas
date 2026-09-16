@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-Once a ride or enclosure event has been [ingested](ADR-maintenance-feed-ingestion.md) and [delivered](ADR-maintenance-event-delivery.md), someone on the grounds still has to act. Maintenance technicians and animal caretakers need **immediate, specific next steps** — especially on 18th-century rides and exotic species (including jumping piranhas), where a generic internet-trained model will be confidently wrong.
+Once a ride or enclosure event has been [ingested](ADR-010-maintenance-feed-ingestion.md) and [delivered](ADR-011-maintenance-event-delivery.md), someone on the grounds still has to act. Maintenance technicians and animal caretakers need **immediate, specific next steps** — especially on 18th-century rides and exotic species (including jumping piranhas), where a generic internet-trained model will be confidently wrong.
 
 Maintenance is driven by **Data Integrity**, **Extensibility**, and **Deployability** ([architecture characteristics](../design_docs/architecture-characteristics-styles.md)). A hallucinated torque spec or a guessed veterinary dose is a wrong reading in procedural form. The estate also has proprietary manuals and vet records that a public model has never seen. The [Maintenance quantum architecture](../assets/maintenance-quantum-architecture.png) places a diagnostic layer between the cloud health / wear engines and the people who receive a Smart Work Order; the [sequence](../assets/maintenance-quantum-sequence.png) is retrieve-then-generate, then a handheld work order.
 
@@ -24,7 +24,7 @@ Specifically:
 - On an anomaly (early-failure trend, health / population flag), the copilot retrieves semantic context, then drafts a work order with **suspected root cause** and **step-by-step mitigation**.
 - Every work order **cites the retrieved passages** (manual section, vet record id) so a keeper or technician can see what the draft is grounded in — the same explainability seam as raw-vs-AI elsewhere.
 - If retrieval is empty or low-confidence, the copilot **does not invent a procedure**. It opens a generic escalate-to-human work order and attaches the anomaly payload only.
-- The copilot calls models through the [internal AI gateway](ADR-external-ai-integration.md), so a provider swap does not rewrite diagnostic logic.
+- The copilot calls models through the [internal AI gateway](ADR-002-external-ai-integration.md), so a provider swap does not rewrite diagnostic logic.
 - RAG-over-a-vector-DB is the **current** way to implement that grounding. The contract is "no uncited procedure," not a specific RAG framework.
 
 ## Consequences

@@ -69,7 +69,7 @@ Note: These phases refer to infrastructure/deployment timeline. The README's Roa
 
 1. **Phased hardware rollout** — start on highest-risk assets; validate and iterate before estate-wide deployment
 2. **Edge models in eval mode first** — anomalies logged locally for 2–4 weeks before cloud publication, allowing tuning without production impact
-3. **Fallback-first design** — Phase 1 static thresholds remain the active path until Phase 2 models beat them on override rate (per [ADR: Production Monitoring & Drift Detection](../ADRs/ADR-ai-vendor-risk-and-monitoring.md))
+3. **Fallback-first design** — Phase 1 static thresholds remain the active path until Phase 2 models beat them on override rate (per [ADR: Production Monitoring & Drift Detection](../ADRs/ADR-001-ai-vendor-risk-and-monitoring.md))
 4. **Staged software releases** — edge model updates via firmware; cloud model updates via gateway config; both support rollback to the previous version within minutes
 
 ## Timeline

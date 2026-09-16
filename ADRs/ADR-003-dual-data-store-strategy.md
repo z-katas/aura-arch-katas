@@ -6,7 +6,7 @@ Accepted
 ## Context
 The Analytics quantum's top driving characteristic is **Data Integrity** (per our [architecture characteristics analysis](../design_docs/architecture-characteristics-styles.md)), and it must serve two very different data-access patterns:
 
-1. **Auditable, explainable insight records** — each AI-generated insight/forecast, with its confidence score and reasoning, needs to be retrievable for explainability (per [ADR](ADR-ai-vendor-risk-and-monitoring.md)) and for tracking the human override rate that we use as our production drift signal.
+1. **Auditable, explainable insight records** — each AI-generated insight/forecast, with its confidence score and reasoning, needs to be retrievable for explainability (per [ADR](ADR-001-ai-vendor-risk-and-monitoring.md)) and for tracking the human override rate that we use as our production drift signal.
 2. **Bulk raw and aggregated telemetry** — footfall, ticketing, and sensor data at scale, needed for trend analysis, model retraining, and ad hoc historical queries (e.g. "how did October Saturdays compare last year"), which is a very different query shape than "look up this one insight."
 
 A single store optimized for one pattern is a poor fit for the other: an OLTP-style store struggles with large historical aggregation queries, while a data lake is a poor fit for fast, structured lookup of a specific insight and its reasoning.
