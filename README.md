@@ -54,11 +54,6 @@ See [design_docs/glossary.md](design_docs/glossary.md).
 
 # Problem definition
 
-The [Overview](#overview) above summarizes how we responded to this. The estate brief itself — context, starting state, challenges, and constraints — is reproduced below for reference.
-
-<details>
-<summary>Context, current state, and challenges — click to expand</summary>
-
 ## Context
 
 After a gardening accident, the 204th in line to the Von Digitalis title has become the **72nd Countess Von Digitalis**, inheriting a large estate that needs modernizing. The family's old business — explosive garden gnomes — is no longer viable, so the Countess is turning to digital solutions to make the estate profitable.
@@ -92,8 +87,6 @@ Starting point is almost entirely analog:
 - **No ticketing** — can't monetize or track visitors without it
 - **Profitability pressure** — must work, or it's back to garden gnomes
 
-</details>
-
 ## Key Objective
 
 "How might we use **AI** to help the Countess understand her estate, keep her animals healthy, and grow visitor numbers 3x — while working around patchy connectivity and a lean staff — so the Von Digitalis estates become profitable without a return to the garden gnome business?"
@@ -108,9 +101,6 @@ This breaks down into four supporting objectives:
 ## Constraints
 
 Constraints taken from the estate brief, grouped so the architecture can address them directly — the AI-specific ones are what [ADR-002](ADRs/ADR-002-external-ai-integration.md) and [ADR-001](ADRs/ADR-001-ai-vendor-risk-and-monitoring.md) exist to answer.
-
-<details>
-<summary>Full constraint list — click to expand</summary>
 
 **Technical**
 
@@ -131,8 +121,6 @@ Constraints taken from the estate brief, grouped so the architecture can address
 - **Pricing risk** — must handle a provider changing prices unexpectedly
 - **Provider risk** — must handle a provider shutting down entirely
 - **Non-determinism** — unlike deterministic functionality, GenAI outputs aren't consistently reproducible; the solution needs a way to verify AI-driven functionality is working, and detect if it starts misbehaving in production
-
-</details>
 
 # Solution
 
@@ -204,7 +192,7 @@ Refer to [detailed architecture characteristics analysis](design_docs/architectu
 
 ## Architecture blueprint
 
-The five quanta compose into one system: C1 shows who talks, C2 shows how they connect. In C2, AI/ML components (purple) stay visually distinct from deterministic services (green), message brokers (blue), and storage (cylinders) — the same "AI-derived vs. ground truth" split as [ADR: Separate Raw Telemetry Path](ADRs/ADR-004-separate-raw-and-ai-derived-paths.md), applied system-wide, not only inside Analytics. The per-quantum diagrams below reuse this distinction with a diagram-local highlight color, not yet standardized to one hue across all of them — on the polish list, not an intentional signal.
+The five quanta compose into one system: C1 shows who talks, C2 shows how they connect. In C2, AI/ML components (purple) stay visually distinct from deterministic services (green), message brokers (blue), and storage (cylinders) — the same "AI-derived vs. ground truth" split as [ADR: Separate Raw Telemetry Path](ADRs/ADR-004-separate-raw-and-ai-derived-paths.md), applied system-wide, not only inside Analytics.
 
 ### C1 - Context view
 
@@ -213,8 +201,6 @@ The five quanta compose into one system: C1 shows who talks, C2 shows how they c
 ### C2 - Container view
 
 ![C2](/assets/c2.png "C2")
-
-> **Erratum:** the Model-Agnostic AI Gateway box in this diagram is labeled "ADR-04" — that decision is [ADR-002: External AI Integration Strategy](ADRs/ADR-002-external-ai-integration.md), not ADR-004 (which covers the separate raw/AI-derived telemetry paths). Noted here pending a corrected re-export of the diagram.
 
 ## Detailed architecture designs
 
