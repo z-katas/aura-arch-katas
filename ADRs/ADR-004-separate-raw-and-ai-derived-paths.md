@@ -11,6 +11,12 @@ Early versions of our [Analytics quantum architecture](../assets/analytics-quant
 
 Routing both through the same component made it unclear to staff which numbers on their dashboard were "ground truth" versus "AI opinion" — a distinction our judges' evaluation criteria (explainability, validation of AI results) explicitly care about.
 
+We considered three alternatives:
+
+1. **Single merged feed through the AI Analytics Agent** — the early version described above. Simplest pipeline (one component produces everything the dashboard shows), but it is exactly what conflates deterministic counts with probabilistic forecasts, and it was the design we rejected on review.
+2. **Separate pipelines, merged in the UI** — keep the live heatmap and the AI forecast as two backend feeds, but let the dashboard combine them into a single undifferentiated view (e.g. one "expected crowd" number). Fixes the backend coupling, but not the actual problem: staff still can't tell which number on screen carries AI uncertainty and which doesn't, so it doesn't satisfy the explainability requirement it was meant to fix.
+3. **Two structurally separate feeds, visually distinguished end-to-end** — the live heatmap is published directly by the Stream Processor with no AI Analytics Agent involvement at any point; the hotspot forecast is published separately, carries a confidence score, and is labeled as such in the UI.
+
 ## Decision
 The Staff Dashboard receives **two explicitly separate feeds**:
 1. **Live heatmap feed** — published directly by the Stream Processor from aggregated raw telemetry. No AI Analytics Agent involvement, no confidence score, no review gate.
