@@ -11,6 +11,12 @@ The Analytics quantum's top driving characteristic is **Data Integrity** (per ou
 
 A single store optimized for one pattern is a poor fit for the other: an OLTP-style store struggles with large historical aggregation queries, while a data lake is a poor fit for fast, structured lookup of a specific insight and its reasoning.
 
+We considered three alternatives:
+
+1. **Single structured/OLTP-style store for everything** — one schema for insights, raw telemetry, and aggregates. Simplest to operate and query consistently, but a structured store sized for fast indexed lookups is a poor fit for bulk historical telemetry at volume — trend analysis and model-retraining queries would either be slow or force compromises on the insight schema to accommodate them.
+2. **Single data lake / warehouse for everything, including insight records** — good for bulk telemetry and historical aggregation, but a poor fit for the Estate Owner Dashboard's "insight review" flow and the override-rate monitoring in [ADR](ADR-001-ai-vendor-risk-and-monitoring.md), both of which need fast, structured lookup of *this specific insight, its confidence score, and its review outcome* — not a scan over a lake.
+3. **Two stores split by access pattern** — an Events DB for individual, auditable insight/forecast records, and a data lake for bulk raw/aggregated telemetry.
+
 ## Decision
 The Analytics quantum writes to **two separate stores** for these two purposes:
 - **Events DB** — structured, indexed storage for individual insight/forecast records: the output, confidence score, reasoning, and (once reviewed) the human approve/correct outcome. This is what the Estate Owner Dashboard's "insight review" flow and our override-rate monitoring query against.
